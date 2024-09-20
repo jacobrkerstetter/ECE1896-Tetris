@@ -15,6 +15,9 @@ class Board:
     def isCellEmpty(self, row, col):
         return self.grid[row][col] == 0
     
+    def clear(self):
+        self.grid = [[0] * self.numCols for i in range(self.numRows)]
+    
     def isRowFull(self, row):
         for col in range(self.numCols):
             if self.isCellEmpty(row, col):
