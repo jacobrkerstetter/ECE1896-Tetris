@@ -1,6 +1,5 @@
 # class to describe the gameboard layout
 
-
 class Board:
     def __init__(self):
         self.numRows = 20
@@ -16,11 +15,12 @@ class Board:
     def isCellEmpty(self, row, col):
         return self.grid[row][col] == 0
     
-    def isRowFull(self):
-        for cell in range(self.numCols):
-            if self.isCellEmpty(self.numRows - 1, cell):
+    def isRowFull(self, row):
+        for col in range(self.numCols):
+            if self.isCellEmpty(row, col):
                 return False
             
         return True
     
-    # def draw(self, row, col, color):
+    def draw(self, row, col, color):
+        self.grid[row][col] = color
