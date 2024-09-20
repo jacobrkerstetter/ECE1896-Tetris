@@ -7,7 +7,20 @@ class Board:
         self.grid = [[0] * self.numCols for i in range(self.numRows)]
 
     def printBoard(self):
-        for i in range(self.numRows):
-            for j in range(self.numCols):
-                print(self.grid[i][j], end=' ')
+        for row in range(self.numRows):
+            for col in range(self.numCols):
+                print(self.grid[row][col], end=' ')
             print()
+
+    def isCellEmpty(self, row, col):
+        return self.grid[row][col] == 0
+    
+    def isRowFull(self, row):
+        for col in range(self.numCols):
+            if self.isCellEmpty(row, col):
+                return False
+            
+        return True
+    
+    def draw(self, row, col, color):
+        self.grid[row][col] = color
