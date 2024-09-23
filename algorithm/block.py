@@ -13,18 +13,23 @@ class Block:
         self.color = color
         self.cells = {}
         self.rotation = 0
-        self.rowOffset = 0
-        self.colOffset = 0
 
-    def move():
-        return None
+    def move(self, board, rowOffset, colOffset):
+        # clear all spaces previously filled
+        for i in range(len(self.cells[self.rotation])):
+            board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
+
+        # fill new blocks
+        for i in range(len(self.cells[self.rotation])):
+            self.cells[self.rotation][i] = (self.cells[self.rotation][i][0] + rowOffset, self.cells[self.rotation][i][1] + colOffset)
+            board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], self.color) 
     
-    def rotate():
+    def rotate(self):
         return None
     
 # child classes for each piece
 class JBlock(Block):
-    def __init__(self):
+    def __init__(self, board):
         super().__init__(Color.colors['lightBlue'])
         self.cells = {
             0: [(0,0), (1,0), (1,1), (1,2)],
@@ -32,6 +37,8 @@ class JBlock(Block):
             2: [(1,0), (1,1), (1,2), (2,2)],
             3: [(0,1), (1,1), (2,0), (2,1)], 
         }
+
+        self.move(board, 0, 0)
 
 class LBlock(Block):
     def __init__(self, color):
