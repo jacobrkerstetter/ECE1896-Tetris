@@ -38,7 +38,7 @@ class TestBoardMethods(unittest.TestCase):
         self.board.draw(1, 1, colors['red'])
 
         self.assertFalse(self.board.isCellEmpty(1, 1))
-        self.assertEqual(self.board.grid[1][1], (255, 0, 0))
+        self.assertEqual(self.board.grid[1][1], 'r')
     
 
 if __name__ == '__main__':
