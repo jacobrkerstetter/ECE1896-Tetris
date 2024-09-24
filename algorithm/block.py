@@ -19,13 +19,25 @@ class Block:
         for i in range(len(self.cells[self.rotation])):
             board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
 
-        # fill new blocks
-        for i in range(len(self.cells[self.rotation])):
-            self.cells[self.rotation][i] = (self.cells[self.rotation][i][0] + rowOffset, self.cells[self.rotation][i][1] + colOffset)
-            board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], self.color) 
+        # update all rotation states and fill new blocks if rotation state matches current state
+        for rotation in self.cells:
+            for i in range(len(self.cells[rotation])):
+                self.cells[rotation][i] = (self.cells[rotation][i][0] + rowOffset, self.cells[rotation][i][1] + colOffset)
+
+                if self.rotation == rotation:
+                    board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], self.color) 
     
-    def rotate(self):
-        return None
+    def rotate(self, board):
+        # clear all spaces previously filled
+        for i in range(len(self.cells[self.rotation])):
+            board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
+
+        if self.rotation == 3:
+            self.rotation = 0
+        else:
+            self.rotation += 1
+
+        self.move(board, 0, 0)
     
 # child classes for each piece
 class JBlock(Block):

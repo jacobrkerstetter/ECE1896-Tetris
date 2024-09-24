@@ -45,5 +45,24 @@ class TestBoardMethods(unittest.TestCase):
         self.assertEqual(board.grid[2][1], 'l')
         self.assertEqual(board.grid[2][2], 'l')
 
+    def testRotateJBlock(self):
+        # add J Block to board
+        board = Board()
+        testBlock = JBlock(board)
+
+        # rotate block
+        testBlock.rotate(board)
+
+        # test new block locations
+        self.assertEqual(board.grid[0][0], 0)
+        self.assertEqual(board.grid[1][0], 0)
+        self.assertEqual(board.grid[1][2], 0)
+
+        self.assertEqual(board.grid[0][1], 'l')
+        self.assertEqual(board.grid[0][2], 'l')
+        self.assertEqual(board.grid[1][1], 'l')
+        self.assertEqual(board.grid[2][1], 'l')
+
+
 if __name__ == '__main__':
     unittest.main()
