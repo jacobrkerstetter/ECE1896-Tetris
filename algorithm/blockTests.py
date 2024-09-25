@@ -33,7 +33,7 @@ class TestBoardMethods(unittest.TestCase):
         self.assertEqual(board.grid[1][2], 'l')
 
         # move block down 1
-        testBlock.move(board, 1, 0)
+        testBlock.move(1, 0)
 
         # test new block locations
         self.assertEqual(board.grid[0][0], 0)
@@ -51,7 +51,7 @@ class TestBoardMethods(unittest.TestCase):
         testBlock = JBlock(board)
 
         # rotate block
-        testBlock.rotate(board)
+        testBlock.rotate()
 
         # test new block locations
         self.assertEqual(board.grid[0][0], 0)
@@ -63,6 +63,39 @@ class TestBoardMethods(unittest.TestCase):
         self.assertEqual(board.grid[1][1], 'l')
         self.assertEqual(board.grid[2][1], 'l')
 
+    def testValidityOffLeftScreen(self):
+        # add J Block to board
+        board = Board()
+        testBlock = JBlock(board)
+
+        self.assertFalse(testBlock.isValidSpace(0, -1))
+        
+    def testMoveOffLeftScreen(self):
+        # add J Block to board
+        board = Board()
+        testBlock = JBlock(board)
+
+        testBlock.move(0, -1)
+        self.assertEqual(board.grid[0][0], 'l')
+        self.assertEqual(board.grid[1][0], 'l')
+        self.assertEqual(board.grid[1][1], 'l')
+        self.assertEqual(board.grid[1][2], 'l')
+
+        testBlock.move(1, 0)
+        self.assertFalse(testBlock.isValidSpace(0, -1))
+
+    def testMoveOffRightScreen(self):
+        # add J Block to board
+        board = Board()
+        testBlock = JBlock(board)
+
+        testBlock.move(0, 7)
+        self.assertEqual(board.grid[0][7], 'l')
+        self.assertEqual(board.grid[1][7], 'l')
+        self.assertEqual(board.grid[1][8], 'l')
+        self.assertEqual(board.grid[1][8], 'l')
+
+        self.assertFalse(testBlock.isValidSpace(0, 1))
 
 if __name__ == '__main__':
     unittest.main()

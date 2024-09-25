@@ -12,14 +12,10 @@ def main( stdscr ):
     clock = pygame.time.Clock()
     fallTime = 0
 
-    # print initial board
-    board = Board()
-    for row in range(board.numRows):
-        for col in range(board.numCols):
-            stdscr.addstr(row, col, str(board.grid[row][col]))
-
     # add test JBlock
+    board = Board()
     testBlock = JBlock(board)
+
     while True:
         fallSpeed = 0.8
 
@@ -37,17 +33,17 @@ def main( stdscr ):
 
             if fallTime / 1000 >= fallSpeed:
                 fallTime = 0
-                testBlock.move(board, 1, 0)
+                #testBlock.move(1, 0)
 
             key = stdscr.getch()
             if key == curses.KEY_DOWN:
-                testBlock.move(board, 1, 0)
+                testBlock.move(1, 0)
             if key == curses.KEY_LEFT:
-                testBlock.move(board, 0, -1)
+                testBlock.move(0, -1)
             if key == curses.KEY_RIGHT:
-                testBlock.move(board, 0, 1)
+                testBlock.move(0, 1)
             if key == curses.KEY_UP:
-                testBlock.rotate(board)
+                testBlock.rotate()
 
             for row in range(board.numRows):
                 for col in range(board.numCols):
