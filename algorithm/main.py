@@ -11,42 +11,42 @@ def main( stdscr ):
     # set up pygame clock
     clock = pygame.time.Clock()
     fallTime = 0
+    fallSpeed = 0.8
 
     # add test JBlock
     board = Board()
-    testBlock = JBlock(board)
+    currBlock = JBlock(board)
+    nextPiece = JBlock(board)
+    
+    # control vars for game loop
+    run = True
 
-    while True:
-        fallSpeed = 0.8
-
+    while run:
+        # reset game board each loop
         stdscr.clear()
         stdscr.move(0, 0)
 
-        # print board with test piece added
+        # draw game board
         for row in range(board.numRows):
             for col in range(board.numCols):
                 stdscr.addstr(row, col, str(board.grid[row][col]))
         
-        while True:
-            fallTime += clock.get_rawtime()
-            clock.tick()
+        # code to govern dropping block automatically
+        # fallTime += clock.get_rawtime()
+        # clock.tick()
 
-            if fallTime / 1000 >= fallSpeed:
-                fallTime = 0
-                #testBlock.move(1, 0)
+        # if fallTime / 1000 >= fallSpeed:
+        #     fallTime = 0
+        #     currBlock.move(1, 0)
 
-            key = stdscr.getch()
-            if key == curses.KEY_DOWN:
-                testBlock.move(1, 0)
-            if key == curses.KEY_LEFT:
-                testBlock.move(0, -1)
-            if key == curses.KEY_RIGHT:
-                testBlock.move(0, 1)
-            if key == curses.KEY_UP:
-                testBlock.rotate()
-
-            for row in range(board.numRows):
-                for col in range(board.numCols):
-                    stdscr.addstr(row, col, str(board.grid[row][col]))
+        key = stdscr.getch()
+        if key == curses.KEY_DOWN:
+            currBlock.move(1, 0)
+        if key == curses.KEY_LEFT:
+            currBlock.move(0, -1)
+        if key == curses.KEY_RIGHT:
+            currBlock.move(0, 1)
+        if key == curses.KEY_UP:
+            currBlock.rotate()
 
 curses.wrapper( main )
