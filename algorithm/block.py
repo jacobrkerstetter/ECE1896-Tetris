@@ -33,17 +33,6 @@ class Block:
                 return False
             
         return True
-        
-        '''
-        # case for off screen left
-        if self.cells[self.rotation][0][1] + colOffset < 0:
-            return False
-        # case for off screen right
-        elif self.cells[self.rotation][3][1] + colOffset > 9:
-            return False
-        else:
-            return True
-        '''
 
     def move(self, rowOffset, colOffset):
         # clear all spaces previously filled
@@ -85,28 +74,68 @@ class JBlock(Block):
             3: [(2,0), (0,1), (1,1), (2,1)], 
         }
 
-        self.draw()
-
 class LBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['orange'])
+    def __init__(self, board):
+        super().__init__(Color.colors['orange'], board)
+
+        self.cells = {
+            0: [(1,0), (1,1), (1,2), (0,2)],
+            1: [(0,1), (1,1), (2,1), (2,2)],
+            2: [(1,0), (1,1), (1,2), (2,0)],
+            3: [(0,0), (0,1), (1,1), (2,1)], 
+        }
 
 class IBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['darkBlue'])
+    def __init__(self, board):
+        super().__init__(Color.colors['darkBlue'], board)
+
+        self.cells = {
+            0: [(1,0), (1,1), (1,2), (1,3)],
+            1: [(0,2), (1,2), (2,2), (3,2)],
+            2: [(2,0), (2,1), (2,2), (2,3)],
+            3: [(0,1), (1,1), (2,1), (3,1)], 
+        }
 
 class SBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['green'])
+    def __init__(self, board):
+        super().__init__(Color.colors['green'], board)
+
+        self.cells = {
+            0: [(0,1), (0,2), (1,1), (1,0)],
+            1: [(0,1), (1,1), (1,2), (2,2)],
+            2: [(1,1), (1,2), (2,0), (2,1)],
+            3: [(0,0), (1,0), (1,1), (2,1)], 
+        }
 
 class TBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['purple'])
+    def __init__(self, board):
+        super().__init__(Color.colors['purple'], board)
+
+        self.cells = {
+            0: [(0,1), (1,0), (1,1), (1,2)],
+            1: [(0,1), (1,1), (1,2), (2,1)],
+            2: [(1,0), (1,1), (1,2), (2,1)],
+            3: [(1,0), (0,1), (1,1), (2,1)], 
+        }
 
 class ZBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['red'])
+    def __init__(self, board):
+        super().__init__(Color.colors['red'], board)
+
+        self.cells = {
+            0: [(0,0), (1,0), (1,1), (1,2)],
+            1: [(0,1), (1,1), (1,2), (2,1)],
+            2: [(1,0), (1,1), (1,2), (2,1)],
+            3: [(1,0), (0,1), (1,1), (2,1)], 
+        }
 
 class OBlock(Block):
-    def __init__(self, color):
-        super.__init__(Color.colors['yellow'])
+    def __init__(self, board):
+        super().__init__(Color.colors['yellow'], board)
+
+        self.cells = {
+            0: [(0,1), (0,2), (1,1), (1,2)],
+            1: [(0,1), (0,2), (1,1), (1,2)],
+            2: [(0,1), (0,2), (1,1), (1,2)],
+            3: [(0,1), (0,2), (1,1), (1,2)], 
+        }

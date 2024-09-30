@@ -1,5 +1,6 @@
 import curses
 import pygame
+import random
 
 from board import Board
 from block import *
@@ -15,11 +16,16 @@ def main( stdscr ):
 
     # add test JBlock
     board = Board()
-    currBlock = JBlock(board)
-    nextPiece = JBlock(board)
+
+    # list of game piece options
+    pieces = [JBlock, SBlock, ZBlock, OBlock, LBlock, TBlock, IBlock]
+    currPiece = JBlock(board)
+    currPiece.draw()
+    nextPiece = random.choice(pieces)(board)
     
     # control vars for game loop
     run = True
+    changePiece = False
 
     while run:
         # reset game board each loop
@@ -32,21 +38,36 @@ def main( stdscr ):
                 stdscr.addstr(row, col, str(board.grid[row][col]))
         
         # code to govern dropping block automatically
-        # fallTime += clock.get_rawtime()
-        # clock.tick()
+        fallTime += clock.get_rawtime()
+        clock.tick()
 
-        # if fallTime / 1000 >= fallSpeed:
-        #     fallTime = 0
-        #     currBlock.move(1, 0)
+        if fallTime / 1000 >= fallSpeed:
+            fallTime = 0
+            currPiece.move(1, 0)
 
+            # if piece touches bottom, change flag
+            for cell in currPiece.cells[currPiece.rotation]:
+                if cell[0] == 19:
+                    changePiece = True
+
+        # get user input to move piece
         key = stdscr.getch()
         if key == curses.KEY_DOWN:
-            currBlock.move(1, 0)
+            currPiece.move(1, 0)
         if key == curses.KEY_LEFT:
-            currBlock.move(0, -1)
+            currPiece.move(0, -1)
         if key == curses.KEY_RIGHT:
-            currBlock.move(0, 1)
+            currPiece.move(0, 1)
         if key == curses.KEY_UP:
-            currBlock.rotate()
+            currPiece.rotate()
+
+        # if piece hits bottom, start with new piece
+        if changePiece:
+            currPiece = nextPiece
+            currPiece.draw()
+
+            nextPiece = random.choice(pieces)(board)
+
+            changePiece = False
 
 curses.wrapper( main )
