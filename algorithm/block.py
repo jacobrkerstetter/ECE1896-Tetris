@@ -25,7 +25,7 @@ class Block:
             self.board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
 
     def isValidSpace(self):
-        validPositions = [[(i, j) for j in range(10)] for i in range(20)]
+        validPositions = [[(i, j) for j in range(10) if self.board.grid[i][j] == 0] for i in range(20)]
         validPositions = [j for sub in validPositions for j in sub]
 
         for position in self.cells[self.rotation]:
@@ -49,8 +49,12 @@ class Block:
                 for i in range(len(self.cells[rotation])):
                     self.cells[rotation][i] = (self.cells[rotation][i][0] - rowOffset, self.cells[rotation][i][1] - colOffset)
 
-        self.draw()
-                    
+            valid = False
+        else:
+            valid = True
+
+        self.draw() 
+        return valid     
     
     def rotate(self):
         self.clearCurrentPos()

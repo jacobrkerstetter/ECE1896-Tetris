@@ -43,12 +43,13 @@ def main( stdscr ):
 
         if fallTime / 1000 >= fallSpeed:
             fallTime = 0
-            currPiece.move(1, 0)
 
-            # if piece touches bottom, change flag
-            for cell in currPiece.cells[currPiece.rotation]:
-                if cell[0] == 19:
-                    changePiece = True
+            if not currPiece.move(1, 0):
+                changePiece = True
+            # if piece touches bottom or other price, change flag
+            # for cell in copyPiece.cells[copyPiece.rotation]:
+            #     if cell[0] == 19:
+            #         changePiece = True
 
         # get user input to move piece
         key = stdscr.getch()
@@ -63,9 +64,11 @@ def main( stdscr ):
 
         # if piece hits bottom, start with new piece
         if changePiece:
+            # make current piece the next piece in line and draw it
             currPiece = nextPiece
             currPiece.draw()
 
+            # randomly choice a next piece
             nextPiece = random.choice(pieces)(board)
 
             changePiece = False
