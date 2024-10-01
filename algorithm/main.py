@@ -16,10 +16,19 @@ def main( stdscr ):
 
     # add test JBlock
     board = Board()
+    
+    # create test board for single line clears
+    # for i in range(9):
+    #     board.draw(19, i, 'l')
+
+    # create test board for double line clears
+    for i in range(9):
+        board.draw(18, i, 'l')
+        board.draw(19, i, 'l')
 
     # list of game piece options
     pieces = [JBlock, SBlock, ZBlock, OBlock, LBlock, TBlock, IBlock]
-    currPiece = JBlock(board)
+    currPiece = IBlock(board)
     currPiece.draw()
     nextPiece = random.choice(pieces)(board)
     
@@ -67,6 +76,9 @@ def main( stdscr ):
 
         # if piece cannot move down any further, start with new piece
         if changePiece:
+            # clear rows that are full
+            board.clearRows()
+
             # make current piece the next piece in line and draw it
             currPiece = nextPiece
             currPiece.draw()
@@ -74,8 +86,5 @@ def main( stdscr ):
             # randomly choice a next piece
             nextPiece = random.choice(pieces)(board)
             changePiece = False
-
-            # clear rows that are full
-            board.clearRows()
 
 curses.wrapper( main )
