@@ -46,10 +46,6 @@ def main( stdscr ):
 
             if not currPiece.move(1, 0):
                 changePiece = True
-            # if piece touches bottom or other price, change flag
-            # for cell in copyPiece.cells[copyPiece.rotation]:
-            #     if cell[0] == 19:
-            #         changePiece = True
 
         # get user input to move piece
         key = stdscr.getch()
@@ -62,7 +58,7 @@ def main( stdscr ):
         if key == curses.KEY_UP:
             currPiece.rotate()
 
-        # if piece hits bottom, start with new piece
+        # if piece cannot move down any further, start with new piece
         if changePiece:
             # make current piece the next piece in line and draw it
             currPiece = nextPiece
@@ -70,7 +66,9 @@ def main( stdscr ):
 
             # randomly choice a next piece
             nextPiece = random.choice(pieces)(board)
-
             changePiece = False
+
+            # clear rows that are full
+            board.clearRows()
 
 curses.wrapper( main )
