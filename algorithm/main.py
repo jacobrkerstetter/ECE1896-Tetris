@@ -26,6 +26,7 @@ def main( stdscr ):
     # control vars for game loop
     run = True
     changePiece = False
+    pause = False
 
     while run:
         # reset game board each loop
@@ -49,6 +50,12 @@ def main( stdscr ):
 
         # get user input to move piece
         key = stdscr.getch()
+        if key == ord('p'):
+            pause = True
+            while pause:
+                newKey = stdscr.getch()
+                if newKey == ord('p'):
+                    pause = False
         if key == curses.KEY_DOWN:
             currPiece.move(1, 0)
         if key == curses.KEY_LEFT:

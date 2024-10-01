@@ -35,9 +35,6 @@ class TestBoardMethods(unittest.TestCase):
     def testFillR1C1(self):
         # fill cell (1,1) with red and verify that the board holds that color
         colors = Color.getColorList()
-        print()
-        print(self.board.grid)
-        print()
         self.board.draw(1, 1, colors['red'])
 
         self.assertFalse(self.board.isCellEmpty(1, 1))
