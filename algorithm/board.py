@@ -16,14 +16,7 @@ class Board:
         return self.grid[row][col] == 0
     
     def clear(self):
-        self.grid = [[[0] * self.numCols] for i in range(self.numRows)]
-    
-    def isRowFull(self, row):
-        for col in range(self.numCols):
-            if self.isCellEmpty(row, col):
-                return False
-            
-        return True
+        self.grid = [[0 for j in range(self.numCols)] for i in range(self.numRows)]
     
     def clearRows(self):
         for i, row in enumerate(self.grid):

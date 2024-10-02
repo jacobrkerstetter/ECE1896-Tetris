@@ -14,24 +14,6 @@ class TestBoardMethods(unittest.TestCase):
             for col in range(10):
                 self.assertTrue(self.board.isCellEmpty(row, col))
 
-    def testRowIsFull(self):
-        # fill all bottom row cells and verify that the row is full
-        colors = Color.getColorList()
-        for col in range(10):
-            self.board.draw(19, col, colors['red'])
-
-        self.assertTrue(self.board.isRowFull(19))
-
-    def testRowIsNotFull(self):
-        colors = Color.getColorList()
-        for col in range(10):
-            self.board.draw(19, col, colors['red'])
-
-        # set cell in (19,1) to empty
-        self.board.draw(19, 1, 0)
-
-        self.assertFalse(self.board.isRowFull(19))
-
     def testFillR1C1(self):
         # fill cell (1,1) with red and verify that the board holds that color
         colors = Color.getColorList()
@@ -51,7 +33,26 @@ class TestBoardMethods(unittest.TestCase):
         # make sure bottom row is all 0s now
         for i in range(10):
             self.assertEqual(self.board.grid[19][i], 0)
-        
+
+    def testClear2Rows(self):
+        self.assertFalse(True)
+
+    def testClear3Rows(self):
+        self.assertFalse(True)
+
+    def testTetrisClear(self):
+        self.assertFalse(True)
+
+    def testClearBoard(self):
+        for i in range(self.board.numRows):
+            for j in range(self.board.numCols):
+                self.board.draw(i, j, 'FULL')
+
+        self.board.clear()
+
+        for i in range(self.board.numRows):
+            for j in range(self.board.numCols):
+                self.assertEqual(self.board.grid[i][j], 0)
 
 if __name__ == '__main__':
     unittest.main()

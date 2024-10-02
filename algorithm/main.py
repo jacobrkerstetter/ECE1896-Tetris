@@ -17,14 +17,14 @@ def main( stdscr ):
     # add test JBlock
     board = Board()
     
-    # create test board for single line clears
+    # # create test board for single line clears
     # for i in range(9):
     #     board.draw(19, i, 'l')
 
-    # create test board for double line clears
-    for i in range(9):
-        board.draw(18, i, 'l')
-        board.draw(19, i, 'l')
+    # # create test board for double line clears
+    # for i in range(9):
+    #     board.draw(18, i, 'l')
+    #     board.draw(19, i, 'l')
 
     # list of game piece options
     pieces = [JBlock, SBlock, ZBlock, OBlock, LBlock, TBlock, IBlock]
