@@ -25,7 +25,7 @@ class Block:
             self.board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
 
     def isValidSpace(self):
-        validPositions = [[(i, j) for j in range(10) if self.board.grid[i][j] == 0] for i in range(20)]
+        validPositions = [[(i, j) for j in range(self.board.numCols) if self.board.grid[i][j] == 0] for i in range(self.board.numRows)]
         validPositions = [j for sub in validPositions for j in sub]
 
         for position in self.cells[self.rotation]:
@@ -94,9 +94,9 @@ class IBlock(Block):
         super().__init__(Color.colors['darkBlue'], board)
 
         self.cells = {
-            0: [(1,4), (1,5), (1,6), (1,7)],
+            0: [(0,4), (0,5), (0,6), (0,7)],
             1: [(0,6), (1,6), (2,6), (3,6)],
-            2: [(2,4), (2,5), (2,6), (2,7)],
+            2: [(1,4), (1,5), (1,6), (1,7)],
             3: [(0,5), (1,5), (2,5), (3,5)], 
         }
 

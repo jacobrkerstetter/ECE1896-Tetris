@@ -35,13 +35,52 @@ class TestBoardMethods(unittest.TestCase):
             self.assertEqual(self.board.grid[19][i], 0)
 
     def testClear2Rows(self):
-        self.assertFalse(True)
+        # fill entire bottom row
+        for i in range(10):
+            self.board.draw(18, i, 'c')
+            self.board.draw(19, i, 'c')
+
+        # call clearRows
+        self.board.clearRows()
+
+        # make sure bottom row is all 0s now
+        for i in range(10):
+            self.assertEqual(self.board.grid[18][i], 0)
+            self.assertEqual(self.board.grid[19][i], 0)
 
     def testClear3Rows(self):
-        self.assertFalse(True)
+        # fill entire bottom row
+        for i in range(10):
+            self.board.draw(17, i, 'c')
+            self.board.draw(18, i, 'c')
+            self.board.draw(19, i, 'c')
+
+        # call clearRows
+        self.board.clearRows()
+
+        # make sure bottom row is all 0s now
+        for i in range(10):
+            self.assertEqual(self.board.grid[17][i], 0)
+            self.assertEqual(self.board.grid[18][i], 0)
+            self.assertEqual(self.board.grid[19][i], 0)
 
     def testTetrisClear(self):
-        self.assertFalse(True)
+        # fill entire bottom row
+        for i in range(10):
+            self.board.draw(16, i, 'c')
+            self.board.draw(17, i, 'c')
+            self.board.draw(18, i, 'c')
+            self.board.draw(19, i, 'c')
+
+        # call clearRows
+        self.board.clearRows()
+
+        # make sure bottom row is all 0s now
+        for i in range(10):
+            self.assertEqual(self.board.grid[16][i], 0)
+            self.assertEqual(self.board.grid[17][i], 0)
+            self.assertEqual(self.board.grid[18][i], 0)
+            self.assertEqual(self.board.grid[19][i], 0)
 
     def testClearBoard(self):
         for i in range(self.board.numRows):

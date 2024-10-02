@@ -1,6 +1,7 @@
 import curses
 import pygame
 import random
+import time
 
 from board import Board
 from block import *
@@ -25,6 +26,9 @@ def main( stdscr ):
     # for i in range(9):
     #     board.draw(18, i, 'l')
     #     board.draw(19, i, 'l')
+
+    # seed random generator
+    random.seed(int(time.time()))
 
     # list of game piece options
     pieces = [JBlock, SBlock, ZBlock, OBlock, LBlock, TBlock, IBlock]
@@ -78,6 +82,10 @@ def main( stdscr ):
         if changePiece:
             # clear rows that are full
             board.clearRows()
+
+            # if nextPiece is overlapping a current piece, game over
+            if not nextPiece.isValidSpace():
+                run = False
 
             # make current piece the next piece in line and draw it
             currPiece = nextPiece
