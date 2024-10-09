@@ -28,9 +28,9 @@ def main( stdscr ):
     #     board.draw(19, i, 'l')
 
     # # create test board for losing game
-    for i in range(3, 20):
-        for j in range(9):
-            board.draw(i, j, 'l')
+    # for i in range(3, 20):
+    #     for j in range(9):
+    #         board.draw(i, j, 'l')
 
     # seed random generator
     random.seed(int(time.time()))
