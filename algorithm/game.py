@@ -9,6 +9,11 @@ from block import *
 
 class Game:
     def __init__(self):
+        # initialize score to 0 and level to 1
+        self.score = 0
+        self.linesCleared = 0
+        self.level = 1
+
         # set up pygame clock
         self.clock = pygame.time.Clock()
         self.fallTime = 0
@@ -52,8 +57,13 @@ class Game:
     def getNextBlock(self):
         # if piece cannot move down any further, start with new piece
         if self.changePiece:
-            # clear rows that are full
-            self.board.clearRows()
+            # clear rows that are full, track level and score
+            numCleared = self.board.clearRows()
+            self.linesCleared += numCleared
+            if self.linesCleared % 10 == 0 and self.linesCleared != 0:
+                self.level += 1
+                # TODO: UPDATE SPEED
+            self.score += self.updateScore(numCleared)
 
             # if nextPiece is overlapping a current piece, game over
             if not self.nextPiece.isValidSpace():
@@ -66,3 +76,16 @@ class Game:
             # randomly choice a next piece
             self.nextPiece = self.getRandomPiece()
             self.changePiece = False
+
+    # function to update score
+    def updateScore(self, n):
+        if n == 1:
+            return 40 * (self.level + 1)
+        elif n == 2:
+            return 100 * (self.level + 1)
+        elif n == 3:
+            return 300 * (self.level + 1)
+        elif n == 4:
+            return 1200 * (self.level + 1)
+        else:
+            return 0

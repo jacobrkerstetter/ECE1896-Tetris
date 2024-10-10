@@ -1,10 +1,23 @@
 import curses
 from game import Game
 
-def main( stdscr ):
-    stdscr.clear()
-    stdscr.nodelay(1)
+def main():
+    screen = curses.initscr()
+    wScore = curses.newwin(5, 17, 6, 5)
+    wBoard = curses.newwin(24, 22, 0, 27)
+    wBoard.nodelay(True)
+    wBoard.keypad(True)
+
+    wScore.border()
+    wBoard.border()
+
+    wScore.addstr(1, 1, "SCORE:")
+    wScore.addstr(2, 1, "LINES:")
+    wScore.addstr(3, 1, "LEVEL:")
+    wScore.refresh()
     
+    wBoard.refresh()
+
     # # create test board for single line clears
     # for i in range(9):
     #     board.draw(19, i, 'l')
@@ -23,22 +36,26 @@ def main( stdscr ):
 
     while game.run:
         # reset game board each loop
-        stdscr.clear()
-        stdscr.move(0, 0)
+        wBoard.clear()
+        wScore.addstr(1, 16 - len(str(game.score)), str(game.score))
+        wScore.addstr(2, 16 - len(str(game.linesCleared)), str(game.linesCleared))
+        wScore.addstr(3, 16 - len(str(game.level)), str(game.level))
+        wScore.refresh()
 
         # draw game board
         for row in range(game.board.numRows):
             for col in range(game.board.numCols):
-                stdscr.addstr(row, col, str(game.board.grid[row][col]))
+                wBoard.addstr(row, col, str(game.board.grid[row][col]))
+        wBoard.refresh()
         
         game.updateFallingBlock()
 
         # get user input to move piece
-        key = stdscr.getch()
+        key = wBoard.getch()
         if key == ord('p'):
             game.pause = True
             while game.pause:
-                newKey = stdscr.getch()
+                newKey = wBoard.getch()
                 if newKey == ord('p'):
                     game.pause = False
         if key == curses.KEY_DOWN:
@@ -56,5 +73,5 @@ def main( stdscr ):
         if not game.run:
             while True:
                 pass
-
-curses.wrapper( main )
+        
+main()
