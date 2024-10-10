@@ -13,6 +13,7 @@ class Game:
         self.score = 0
         self.linesCleared = 0
         self.level = 1
+        self.levelThreshold = 10
 
         # set up pygame clock
         self.clock = pygame.time.Clock()
@@ -59,10 +60,13 @@ class Game:
         if self.changePiece:
             # clear rows that are full, track level and score
             numCleared = self.board.clearRows()
+            prevCleared = self.linesCleared
             self.linesCleared += numCleared
-            if self.linesCleared % 10 == 0 and self.linesCleared != 0:
+            if self.linesCleared >= self.levelThreshold and prevCleared < self.levelThreshold:
                 self.level += 1
-                # TODO: UPDATE SPEED
+                self.fallSpeed -= 0.1
+                self.levelThreshold += 10
+
             self.score += self.updateScore(numCleared)
 
             # if nextPiece is overlapping a current piece, game over
