@@ -19,9 +19,13 @@ class Board:
         self.grid = [[0 for j in range(self.numCols)] for i in range(self.numRows)]
     
     def clearRows(self):
+        numCleared = 0
         for i, row in enumerate(self.grid):
             if 0 not in row:
+                numCleared += 1
                 self.grid = [[0 for j in range(self.numCols)]] + self.grid[:i] + self.grid[i + 1:]
+
+        return numCleared
 
     def draw(self, row, col, color):
         self.grid[row][col] = color
