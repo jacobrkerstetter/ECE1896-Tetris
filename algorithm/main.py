@@ -1,8 +1,31 @@
 import curses
 from game import Game
+from color import Color
 
 def main():
     screen = curses.initscr()
+
+    # define colors
+    curses.start_color()
+    curses.use_default_colors()
+
+    curses.init_color(1, 1000, 0, 0) # red
+    curses.init_color(2, 0, 1000, 0) # green
+    curses.init_color(3, 1000, 1000, 0) # yellow
+    curses.init_color(4, 0, 0, 1000) # dark blue
+    curses.init_color(5, 1000, 500, 1000) # pink
+    curses.init_color(6, 500, 500, 1000) # light blue
+    curses.init_color(7, 1000, 750, 325) # orange
+
+    curses.init_pair(1, 1, 1) 
+    curses.init_pair(2, 2, 2)
+    curses.init_pair(3, 3, 3)
+    curses.init_pair(4, 4, 4)
+    curses.init_pair(5, 5, 5)
+    curses.init_pair(6, 6, 6)
+    curses.init_pair(7, 7, 7)
+
+    # initialize and style windows
     wScore = curses.newwin(5, 17, 6, 5)
     wBoard = curses.newwin(24, 22, 0, 27)
     wBoard.nodelay(True)
@@ -45,7 +68,10 @@ def main():
         # draw game board
         for row in range(game.board.numRows):
             for col in range(game.board.numCols):
-                wBoard.addstr(row, col, str(game.board.grid[row][col]))
+                if game.board.grid[row][col] != 0:
+                    wBoard.addstr(row, col, str(game.board.grid[row][col]), curses.color_pair(Color.pairMap[game.board.grid[row][col]]))
+                else:
+                    wBoard.addstr(row, col, str(game.board.grid[row][col]))
         wBoard.refresh()
         
         game.updateFallingBlock()

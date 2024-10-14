@@ -10,6 +10,16 @@ class Color:
         'lightBlue': 'l',
         'orange': 'o'
     }
+
+    pairMap = {
+        'r': 1,
+        'd': 4,
+        'g': 2,
+        'p': 5,
+        'y': 3,
+        'l': 6,
+        'o': 7
+    }
     
     # colors = {
     #     'red': (255, 0, 0),
