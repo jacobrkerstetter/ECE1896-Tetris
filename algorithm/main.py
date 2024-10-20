@@ -97,7 +97,13 @@ def main():
 
         # pause screen for losing
         if not game.run:
-            while True:
-                pass
+            while not game.reset:
+                resetKey = wBoard.getch()
+                if resetKey == ord('r'):
+                    game.reset = True
+        
+            game.reset = False
+            game.run = True
+            game.resetGame()
         
 main()

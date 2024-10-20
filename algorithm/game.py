@@ -36,6 +36,7 @@ class Game:
 
         # control vars for game loop
         self.run = True
+        self.reset = False
         self.changePiece = False
         self.pause = False
 
@@ -93,3 +94,6 @@ class Game:
             return 1200 * (self.level + 1)
         else:
             return 0
+        
+    def resetGame(self):
+        self.__init__()
