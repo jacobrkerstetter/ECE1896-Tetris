@@ -39,13 +39,6 @@ def background(color):
     color_palette[0] = color
     splash.append(displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0))
 
-def rectangle(x, y, length, width, color):
-    # Draw a smaller inner rectangle
-    inner_bitmap = displayio.Bitmap(length, width, 1)
-    inner_palette = displayio.Palette(1)
-    inner_palette[0] = color
-    splash.append(displayio.TileGrid(inner_bitmap, pixel_shader=inner_palette, x=x, y=y))
-
 def tetrisBlock(x, y, color):
     inner_bitmap = displayio.Bitmap(16, 16, 1)
     inner_palette = displayio.Palette(1)
@@ -150,24 +143,24 @@ def newPiece():
 def displayBoard(mat):
     for i in range(10):
         for j in range(20):
-		    if(old[i][j] != mat[i][j]):
-                old[i][j] = mat[i][j]
-                if(mat[i][j] == 'r'):
+            if old[i][j] != mat[i][j]:
+                if mat[i][j] == "r":
                     tetrisBlock(i * 16 + 100, j * 16, red)
-                if(mat[i][j] == 'g'):
+                if mat[i][j] == "g":
                     tetrisBlock(i * 16 + 100, j * 16, green)
-                if(mat[i][j] == 'd'):
+                if mat[i][j] == "d":
                     tetrisBlock(i * 16 + 100, j * 16, dark)
-                if(mat[i][j] == 'l'):
+                if mat[i][j] == "l":
                     tetrisBlock(i * 16 + 100, j * 16, light)
-                if(mat[i][j] == 'y'):
+                if mat[i][j] == "y":
                     tetrisBlock(i * 16 + 100, j * 16, yellow)
-                if(mat[i][j] == 'p'):
+                if mat[i][j] == "p":
                     tetrisBlock(i * 16 + 100, j * 16, purple)
-                if(mat[i][j] == 'o'):
+                if mat[i][j] == "o":
                     tetrisBlock(i * 16 + 100, j * 16, orange)
-                if(mat[i][j] == '0'):
-                    splash.append(Rect(i * 16 + 100, j * 16, 16, 16, 0x000000))
+                if mat[i][j] == "0":
+                    splash.append(Rect(i * 16 + 100, j * 16, 17, 16, fill=0x000000, outline = 0x000000))
+                old[i][j] = mat[i][j]
 
 def state1():
     while len(splash) > 0:
@@ -210,7 +203,7 @@ def state2():
     while len(splash) > 0:
             splash.pop()
     background(0x091C3B)
-    rectangle(100, 0, 160, 320, 0x000000)
+    Rect(100,0,160,320, fill=0x000000)
 
     text_group = displayio.Group(scale=2, x=300, y=20)
     text_area = label.Label(terminalio.FONT, text="Score: 0", color=0xFFFFFF)
