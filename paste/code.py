@@ -26,6 +26,11 @@ while True:
                 display.newPiece()
 
             display.displayBoard(game.board)
+            nextPiece = game.nextPiece
+
+            # update game
+            game.updateFallingBlock()
+            game.getNextBlock()
 
         # when game is over, go to leaderboard
         state = 3
