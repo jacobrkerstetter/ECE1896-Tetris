@@ -68,7 +68,7 @@ def main():
         # draw game board
         for row in range(game.board.numRows):
             for col in range(game.board.numCols):
-                if game.board.grid[row][col] != 0:
+                if game.board.grid[row][col] != '0':
                     wBoard.addstr(row, col, str(game.board.grid[row][col]), curses.color_pair(Color.pairMap[game.board.grid[row][col]]))
                 else:
                     wBoard.addstr(row, col, str(game.board.grid[row][col]))

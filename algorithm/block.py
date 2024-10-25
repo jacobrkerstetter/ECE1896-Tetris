@@ -22,10 +22,10 @@ class Block:
     def clearCurrentPos(self):
         # clear current position to allow for block to be drawn in new location
         for i in range(len(self.cells[self.rotation])):
-            self.board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], 0)
+            self.board.draw(self.cells[self.rotation][i][0], self.cells[self.rotation][i][1], '0')
 
     def isValidSpace(self):
-        validPositions = [[(i, j) for j in range(self.board.numCols) if self.board.grid[i][j] == 0] for i in range(self.board.numRows)]
+        validPositions = [[(i, j) for j in range(self.board.numCols) if self.board.grid[i][j] == '0'] for i in range(self.board.numRows)]
         validPositions = [j for sub in validPositions for j in sub]
 
         for position in self.cells[self.rotation]:

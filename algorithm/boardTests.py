@@ -32,7 +32,7 @@ class TestBoardMethods(unittest.TestCase):
 
         # make sure bottom row is all 0s now
         for i in range(10):
-            self.assertEqual(self.board.grid[19][i], 0)
+            self.assertEqual(self.board.grid[19][i], '0')
 
     def testClear2Rows(self):
         # fill entire bottom row
@@ -45,8 +45,8 @@ class TestBoardMethods(unittest.TestCase):
 
         # make sure bottom row is all 0s now
         for i in range(10):
-            self.assertEqual(self.board.grid[18][i], 0)
-            self.assertEqual(self.board.grid[19][i], 0)
+            self.assertEqual(self.board.grid[18][i], '0')
+            self.assertEqual(self.board.grid[19][i], '0')
 
     def testClear3Rows(self):
         # fill entire bottom row
@@ -60,9 +60,9 @@ class TestBoardMethods(unittest.TestCase):
 
         # make sure bottom row is all 0s now
         for i in range(10):
-            self.assertEqual(self.board.grid[17][i], 0)
-            self.assertEqual(self.board.grid[18][i], 0)
-            self.assertEqual(self.board.grid[19][i], 0)
+            self.assertEqual(self.board.grid[17][i], '0')
+            self.assertEqual(self.board.grid[18][i], '0')
+            self.assertEqual(self.board.grid[19][i], '0')
 
     def testTetrisClear(self):
         # fill entire bottom row
@@ -77,10 +77,10 @@ class TestBoardMethods(unittest.TestCase):
 
         # make sure bottom row is all 0s now
         for i in range(10):
-            self.assertEqual(self.board.grid[16][i], 0)
-            self.assertEqual(self.board.grid[17][i], 0)
-            self.assertEqual(self.board.grid[18][i], 0)
-            self.assertEqual(self.board.grid[19][i], 0)
+            self.assertEqual(self.board.grid[16][i], '0')
+            self.assertEqual(self.board.grid[17][i], '0')
+            self.assertEqual(self.board.grid[18][i], '0')
+            self.assertEqual(self.board.grid[19][i], '0')
 
     def testClearBoard(self):
         for i in range(self.board.numRows):
@@ -91,7 +91,7 @@ class TestBoardMethods(unittest.TestCase):
 
         for i in range(self.board.numRows):
             for j in range(self.board.numCols):
-                self.assertEqual(self.board.grid[i][j], 0)
+                self.assertEqual(self.board.grid[i][j], '0')
 
 if __name__ == '__main__':
     unittest.main()

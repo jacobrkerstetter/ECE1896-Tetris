@@ -81,10 +81,10 @@ class TestBoardMethods(unittest.TestCase):
         testBlock.draw()
 
         # test rotation state 0 cells
-        self.assertEqual(board.grid[1][4], 'd')
-        self.assertEqual(board.grid[1][5], 'd')
-        self.assertEqual(board.grid[1][6], 'd')
-        self.assertEqual(board.grid[1][7], 'd')
+        self.assertEqual(board.grid[0][4], 'd')
+        self.assertEqual(board.grid[0][5], 'd')
+        self.assertEqual(board.grid[0][6], 'd')
+        self.assertEqual(board.grid[0][7], 'd')
 
         # test rotation state 1 cells
         testBlock.rotate()
@@ -95,10 +95,10 @@ class TestBoardMethods(unittest.TestCase):
 
         # test rotation state 2 cells
         testBlock.rotate()
-        self.assertEqual(board.grid[2][4], 'd')
-        self.assertEqual(board.grid[2][5], 'd')
-        self.assertEqual(board.grid[2][6], 'd')
-        self.assertEqual(board.grid[2][7], 'd')
+        self.assertEqual(board.grid[1][4], 'd')
+        self.assertEqual(board.grid[1][5], 'd')
+        self.assertEqual(board.grid[1][6], 'd')
+        self.assertEqual(board.grid[1][7], 'd')
 
         # test rotation state 3 cells
         testBlock.rotate()
@@ -260,9 +260,9 @@ class TestBoardMethods(unittest.TestCase):
         testBlock.move(1, 0)
 
         # test new block locations
-        self.assertEqual(board.grid[0][4], 0)
-        self.assertEqual(board.grid[1][5], 0)
-        self.assertEqual(board.grid[1][6], 0)
+        self.assertEqual(board.grid[0][4], '0')
+        self.assertEqual(board.grid[1][5], '0')
+        self.assertEqual(board.grid[1][6], '0')
 
         self.assertEqual(board.grid[1][4], 'l')
         self.assertEqual(board.grid[2][4], 'l')
