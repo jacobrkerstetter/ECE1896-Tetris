@@ -46,18 +46,18 @@ def tetrisBlock(x, y, color):
     splash.append(displayio.TileGrid(inner_bitmap, pixel_shader=inner_palette, x=x, y=y))
 
 
-    points = [(x, y), (x + 16, y), (x + 14, y + 2), (x + 2, y + 2)]  # Adjust for size and shape
+    points = [(x, y), (x + 15, y), (x + 13, y + 2), (x + 2, y + 2)]  # Adjust for size and shape
     trapezoid = Polygon(points, outline=color[1])
     splash.append(trapezoid)
-    points = [(x, y), (x, y + 16), (x + 2, y + 14), (x + 2, y + 2)]  # Adjust for size and shape
+    points = [(x, y), (x, y + 15), (x + 2, y + 13), (x + 2, y + 2)]  # Adjust for size and shape
     trapezoid = Polygon(points, outline=color[1])
     splash.append(trapezoid)
 
 
-    points = [(x + 16, y), (x + 16, y + 16), (x + 14, y + 14), (x + 14, y + 2)]  # Adjust for size and shape
+    points = [(x + 15, y), (x + 15, y + 15), (x + 13, y + 13), (x + 13, y + 2)]  # Adjust for size and shape
     trapezoid = Polygon(points, outline=color[2])
     splash.append(trapezoid)
-    points = [(x + 16, y + 16), (x, y + 16), (x + 2, y + 14), (x + 14, y + 14)]  # Adjust for size and shape
+    points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]  # Adjust for size and shape
     trapezoid = Polygon(points, outline=color[2])
     splash.append(trapezoid)
 
@@ -95,42 +95,42 @@ def tetrisSign(x, y):
     tetrisBlock(x + 16*9, y + 16*4, dark)
     #R
     time.sleep(0.5)
-    tetrisBlock(x + 16*12, y, red)
-    tetrisBlock(x + 16*13, y, red)
-    tetrisBlock(x + 16*14, y, red)
-    tetrisBlock(x + 16*12, y + 16, red)
-    tetrisBlock(x + 16*14, y + 16, red)
-    tetrisBlock(x + 16*12, y + 16*2, red)
-    tetrisBlock(x + 16*13, y + 16*2, red)
-    tetrisBlock(x + 16*14, y + 16*2, red)
-    tetrisBlock(x + 16*12, y + 16*3, red)
-    tetrisBlock(x + 16*13, y + 16*3, red)
-    tetrisBlock(x + 16*12, y + 16*4, red)
-    tetrisBlock(x + 16*14, y + 16*4, red)
+    tetrisBlock(x + 16*12, y, light)
+    tetrisBlock(x + 16*13, y, light)
+    tetrisBlock(x + 16*14, y, light)
+    tetrisBlock(x + 16*12, y + 16, light)
+    tetrisBlock(x + 16*14, y + 16, light)
+    tetrisBlock(x + 16*12, y + 16*2, light)
+    tetrisBlock(x + 16*13, y + 16*2, light)
+    tetrisBlock(x + 16*14, y + 16*2, light)
+    tetrisBlock(x + 16*12, y + 16*3, light)
+    tetrisBlock(x + 16*13, y + 16*3, light)
+    tetrisBlock(x + 16*12, y + 16*4, light)
+    tetrisBlock(x + 16*14, y + 16*4, light)
     #I
     time.sleep(0.5)
-    tetrisBlock(x + 16*16, y, green)
-    tetrisBlock(x + 16*17, y, green)
-    tetrisBlock(x + 16*18, y, green)
-    tetrisBlock(x + 16*17, y + 16, green)
-    tetrisBlock(x + 16*17, y + 16*2, green)
-    tetrisBlock(x + 16*17, y + 16*3, green)
-    tetrisBlock(x + 16*16, y + 16*4, green)
-    tetrisBlock(x + 16*17, y + 16*4, green)
-    tetrisBlock(x + 16*18, y + 16*4, green)
+    tetrisBlock(x + 16*16, y, yellow)
+    tetrisBlock(x + 16*17, y, yellow)
+    tetrisBlock(x + 16*18, y, yellow)
+    tetrisBlock(x + 16*17, y + 16, yellow)
+    tetrisBlock(x + 16*17, y + 16*2, yellow)
+    tetrisBlock(x + 16*17, y + 16*3, yellow)
+    tetrisBlock(x + 16*16, y + 16*4, yellow)
+    tetrisBlock(x + 16*17, y + 16*4, yellow)
+    tetrisBlock(x + 16*18, y + 16*4, yellow)
     # S
     time.sleep(0.5)
-    tetrisBlock(x + 16*20, y, dark)
-    tetrisBlock(x + 16*21, y, dark)
-    tetrisBlock(x + 16*22, y, dark)
-    tetrisBlock(x + 16*20, y + 16, dark)
-    tetrisBlock(x + 16*20, y + 16*2, dark)
-    tetrisBlock(x + 16*21, y + 16*2, dark)
-    tetrisBlock(x + 16*22, y + 16*2, dark)
-    tetrisBlock(x + 16*22, y + 16*3, dark)
-    tetrisBlock(x + 16*20, y + 16*4, dark)
-    tetrisBlock(x + 16*21, y + 16*4, dark)
-    tetrisBlock(x + 16*22, y + 16*4, dark)
+    tetrisBlock(x + 16*20, y, purple)
+    tetrisBlock(x + 16*21, y, purple)
+    tetrisBlock(x + 16*22, y, purple)
+    tetrisBlock(x + 16*20, y + 16, purple)
+    tetrisBlock(x + 16*20, y + 16*2, purple)
+    tetrisBlock(x + 16*21, y + 16*2, purple)
+    tetrisBlock(x + 16*22, y + 16*2, purple)
+    tetrisBlock(x + 16*22, y + 16*3, purple)
+    tetrisBlock(x + 16*20, y + 16*4, purple)
+    tetrisBlock(x + 16*21, y + 16*4, purple)
+    tetrisBlock(x + 16*22, y + 16*4, purple)
 
     time.sleep(0.5)
 
@@ -159,7 +159,7 @@ def displayBoard(mat):
                 if mat[j][i] == "o":
                     tetrisBlock(i * 16 + 100, j * 16, orange)
                 if mat[j][i] == "0":
-                    splash.append(Rect(i * 16 + 100, j * 16, 17, 16, fill=0x000000, outline = 0x000000))
+                    splash.append(Rect(i * 16 + 100, j * 16, 16, 16, fill=0x000000, outline = 0x000000))
                 old[j][i] = mat[j][i]
 
 def state1():
