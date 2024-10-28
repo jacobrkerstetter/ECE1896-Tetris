@@ -1,4 +1,4 @@
-from color import Color
+from algorithm.color import Color
 
 # parent class for the game pieces
 

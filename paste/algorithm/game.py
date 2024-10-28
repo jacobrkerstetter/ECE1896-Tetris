@@ -1,11 +1,10 @@
 # library imports
-import pygame
 import time
 import random
 
 # class imports
-from board import Board
-from block import *
+from algorithm.board import Board
+from algorithm.block import *
 
 class Game:
     def __init__(self):
@@ -16,7 +15,6 @@ class Game:
         self.levelThreshold = 10
 
         # set up pygame clock
-        self.clock = pygame.time.Clock()
         self.fallTime = 0
         self.fallSpeed = 0.8
 
@@ -46,8 +44,6 @@ class Game:
 
     # function to make block fall automatically
     def updateFallingBlock(self):
-        self.fallTime += self.clock.get_rawtime()
-        self.clock.tick()
 
         if self.fallTime / 1000 >= self.fallSpeed:
             self.fallTime = 0

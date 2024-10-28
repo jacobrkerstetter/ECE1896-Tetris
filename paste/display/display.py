@@ -134,7 +134,7 @@ def tetrisSign(x, y):
 
     time.sleep(0.5)
 
-old = [['b' for _ in range(20)] for _ in range(10)]
+old = [['b' for _ in range(10)] for _ in range(20)]
 
 def newPiece():
 	while len(splash) > 3:
@@ -143,24 +143,24 @@ def newPiece():
 def displayBoard(mat):
     for i in range(10):
         for j in range(20):
-            if old[i][j] != mat[i][j]:
-                if mat[i][j] == "r":
+            if old[j][i] != mat[j][i]:
+                if mat[j][i] == "r":
                     tetrisBlock(i * 16 + 100, j * 16, red)
-                if mat[i][j] == "g":
+                if mat[j][i] == "g":
                     tetrisBlock(i * 16 + 100, j * 16, green)
-                if mat[i][j] == "d":
+                if mat[j][i] == "d":
                     tetrisBlock(i * 16 + 100, j * 16, dark)
-                if mat[i][j] == "l":
+                if mat[j][i] == "l":
                     tetrisBlock(i * 16 + 100, j * 16, light)
-                if mat[i][j] == "y":
+                if mat[j][i] == "y":
                     tetrisBlock(i * 16 + 100, j * 16, yellow)
-                if mat[i][j] == "p":
+                if mat[j][i] == "p":
                     tetrisBlock(i * 16 + 100, j * 16, purple)
-                if mat[i][j] == "o":
+                if mat[j][i] == "o":
                     tetrisBlock(i * 16 + 100, j * 16, orange)
-                if mat[i][j] == "0":
+                if mat[j][i] == "0":
                     splash.append(Rect(i * 16 + 100, j * 16, 17, 16, fill=0x000000, outline = 0x000000))
-                old[i][j] = mat[i][j]
+                old[j][i] = mat[j][i]
 
 def state1():
     while len(splash) > 0:
