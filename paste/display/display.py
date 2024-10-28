@@ -134,11 +134,28 @@ def tetrisSign(x, y):
 
     time.sleep(0.5)
 
-old = [['b' for _ in range(10)] for _ in range(20)]
+old = [['0' for _ in range(10)] for _ in range(20)]
 
 def newPiece():
-	while len(splash) > 3:
-		splash.pop()
+    splash.pop(0)
+    while len(splash) > 3:
+        splash.pop()
+    for i in range(10):
+        for j in range(20):
+            if old[j][i] == "r":
+                tetrisBlock(i * 16 + 100, j * 16, red)
+            if old[j][i] == "g":
+                tetrisBlock(i * 16 + 100, j * 16, green)
+            if old[j][i] == "d":
+                tetrisBlock(i * 16 + 100, j * 16, dark)
+            if old[j][i] == "l":
+                tetrisBlock(i * 16 + 100, j * 16, light)
+            if old[j][i] == "y":
+                tetrisBlock(i * 16 + 100, j * 16, yellow)
+            if old[j][i] == "p":
+                tetrisBlock(i * 16 + 100, j * 16, purple)
+            if old[j][i] == "o":
+                tetrisBlock(i * 16 + 100, j * 16, orange)
 
 def displayBoard(mat):
     for i in range(10):
@@ -202,8 +219,9 @@ def state1():
 def state2():
     while len(splash) > 0:
             splash.pop()
+            
     background(0x091C3B)
-    Rect(100,0,160,320, fill=0x000000)
+    splash.append(Rect(100,0,160,320, fill=0x000000))
 
     text_group = displayio.Group(scale=2, x=300, y=20)
     text_area = label.Label(terminalio.FONT, text="Score: 0", color=0xFFFFFF)
