@@ -21,10 +21,6 @@ while True:
         # initialize game
         game = Game()
         while game.run:
-            # clear memory when new piece drops in
-            if game.changePiece:
-                newPiece()
-
             displayBoard(game.board.grid)
             nextPiece = game.nextPiece
 

@@ -5,6 +5,7 @@ import random
 # class imports
 from algorithm.board import Board
 from algorithm.block import *
+from display.display import *
 
 class Game:
     def __init__(self):
@@ -55,6 +56,8 @@ class Game:
     def getNextBlock(self):
         # if piece cannot move down any further, start with new piece
         if self.changePiece:
+            newPiece()
+
             # clear rows that are full, track level and score
             numCleared = self.board.clearRows()
             prevCleared = self.linesCleared
