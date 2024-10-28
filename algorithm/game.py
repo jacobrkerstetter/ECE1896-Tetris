@@ -1,5 +1,4 @@
 # library imports
-import pygame
 import time
 import random
 
@@ -15,8 +14,8 @@ class Game:
         self.level = 1
         self.levelThreshold = 10
 
-        # set up pygame clock
-        self.clock = pygame.time.Clock()
+        # set up auto falling
+        self.startTime = time.time()
         self.fallTime = 0
         self.fallSpeed = 0.8
 
@@ -46,11 +45,9 @@ class Game:
 
     # function to make block fall automatically
     def updateFallingBlock(self):
-        self.fallTime += self.clock.get_rawtime()
-        self.clock.tick()
-
-        if self.fallTime / 1000 >= self.fallSpeed:
-            self.fallTime = 0
+        print(time.time() - self.startTime)
+        if (time.time() - self.startTime) >= self.fallSpeed:
+            self.startTime = time.time()
 
             if not self.currPiece.move(1, 0):
                 self.changePiece = True
