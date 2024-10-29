@@ -137,7 +137,6 @@ def tetrisSign(x, y):
 old = [['0' for _ in range(10)] for _ in range(20)]
 
 def newPiece():
-    splash.pop(0)
     while len(splash) > 3:
         splash.pop()
     for i in range(10):
@@ -234,7 +233,8 @@ def state3():
     background(0x091C3B)
     splash.append(Rect(140, 20, 200, 70, outline=0xFFFFFF))
     splash.append(Rect(140, 90, 200, 210, outline=0xFFFFFF))
-
+    splash.append(RoundRect(370, 250, 80, 50, 5, outline=0xFFFFFF))
+    
     # Draw a label
     text_group = displayio.Group(scale=2, x=170, y=55)
     text = "Leaderboard"
@@ -243,12 +243,10 @@ def state3():
     splash.append(text_group)
 
     text_group = displayio.Group(scale=2, x=160, y=125)
-    text = "#1: 00300 ZAC"
+    text = "#1: 00000 ZAC"
     text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
     text_group.append(text_area)  # Subgroup for text scaling
     splash.append(text_group)
-
-    splash.append(RoundRect(370, 250, 80, 50, 5, outline=0xFFFFFF))
 
     text_group = displayio.Group(scale=2, x=380, y=275)
     text = "Back"
@@ -261,7 +259,7 @@ def state3():
         p = ts.touch_point
         if p:
             x, y, pressure = p
-            if(x > 30  and x < 110 and y > 250 and y < 300):
+            if(x > 20  and x < 120 and y > 240 and y < 310):
                 nextState = 1
                 start = True
             print("x= ", x)
