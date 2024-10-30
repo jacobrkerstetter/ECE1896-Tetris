@@ -10,6 +10,26 @@ from adafruit_hx8357 import HX8357
 from adafruit_display_shapes.roundrect import RoundRect
 from adafruit_display_shapes.rect import Rect
 
+"""
+Dsiplay uses 5v and GND
+
+SPI MODE
+TEENSY  ->  ADAFRUIT_SPI
+
+Display
+D9      ->  CS 
+D10     ->  D/C
+D11     ->  MOSI
+D12     ->  RST
+D13     ->  CLOCK
+Touchscreen
+D24     ->  Y+
+D25     ->  X+
+D26     ->  Y-
+D27     ->  X-
+
+"""
+
 red = [0xFF0000, 0xFF5555, 0x990000]
 green = [0x00FF00, 0x55FF55, 0x009900]
 dark = [0x0000FF, 0x5555FF, 0x000099]
