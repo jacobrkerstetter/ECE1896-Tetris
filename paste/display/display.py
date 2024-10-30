@@ -40,26 +40,25 @@ def background(color):
     splash.append(displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0))
 
 def tetrisBlock(x, y, color):
-    inner_bitmap = displayio.Bitmap(16, 16, 1)
-    inner_palette = displayio.Palette(1)
-    inner_palette[0] = color[0]
-    splash.append(displayio.TileGrid(inner_bitmap, pixel_shader=inner_palette, x=x, y=y))
-
+    square = Rect(x,y,16,16, fill=color[0])
+    splash.append(square)
 
     points = [(x, y), (x + 15, y), (x + 13, y + 2), (x + 2, y + 2)]  # Adjust for size and shape
-    trapezoid = Polygon(points, outline=color[1])
-    splash.append(trapezoid)
+    trapezoid1 = Polygon(points, outline=color[1])
+    splash.append(trapezoid1)
     points = [(x, y), (x, y + 15), (x + 2, y + 13), (x + 2, y + 2)]  # Adjust for size and shape
-    trapezoid = Polygon(points, outline=color[1])
-    splash.append(trapezoid)
+    trapezoid2 = Polygon(points, outline=color[1])
+    splash.append(trapezoid2)
 
 
     points = [(x + 15, y), (x + 15, y + 15), (x + 13, y + 13), (x + 13, y + 2)]  # Adjust for size and shape
-    trapezoid = Polygon(points, outline=color[2])
-    splash.append(trapezoid)
+    trapezoid3 = Polygon(points, outline=color[2])
+    splash.append(trapezoid3)
     points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]  # Adjust for size and shape
-    trapezoid = Polygon(points, outline=color[2])
-    splash.append(trapezoid)
+    trapezoid4 = Polygon(points, outline=color[2])
+    splash.append(trapezoid4)
+
+    return [square, trapezoid1, trapezoid2, trapezoid3, trapezoid4]
 
 def tetrisSign(x, y):
     #T
@@ -137,45 +136,54 @@ def tetrisSign(x, y):
 old = [['0' for _ in range(10)] for _ in range(20)]
 
 def newPiece():
-    while len(splash) > 3:
-        splash.pop()
-    for i in range(10):
-        for j in range(20):
-            if old[j][i] == "r":
-                tetrisBlock(i * 16 + 100, j * 16, red)
-            if old[j][i] == "g":
-                tetrisBlock(i * 16 + 100, j * 16, green)
-            if old[j][i] == "d":
-                tetrisBlock(i * 16 + 100, j * 16, dark)
-            if old[j][i] == "l":
-                tetrisBlock(i * 16 + 100, j * 16, light)
-            if old[j][i] == "y":
-                tetrisBlock(i * 16 + 100, j * 16, yellow)
-            if old[j][i] == "p":
-                tetrisBlock(i * 16 + 100, j * 16, purple)
-            if old[j][i] == "o":
-                tetrisBlock(i * 16 + 100, j * 16, orange)
+    pass
+    # while len(splash) > 3:
+    #     splash.pop()
+    # for i in range(10):
+    #     for j in range(20):
+    #         if old[j][i] == "r":
+    #             tetrisBlock(i * 16 + 100, j * 16, red)
+    #         if old[j][i] == "g":
+    #             tetrisBlock(i * 16 + 100, j * 16, green)
+    #         if old[j][i] == "d":
+    #             tetrisBlock(i * 16 + 100, j * 16, dark)
+    #         if old[j][i] == "l":
+    #             tetrisBlock(i * 16 + 100, j * 16, light)
+    #         if old[j][i] == "y":
+    #             tetrisBlock(i * 16 + 100, j * 16, yellow)
+    #         if old[j][i] == "p":
+    #             tetrisBlock(i * 16 + 100, j * 16, purple)
+    #         if old[j][i] == "o":
+    #             tetrisBlock(i * 16 + 100, j * 16, orange)
+
+def popOne(pops):
+    for part in pops:
+        splash.remove(part)
+
+prev = [[0 for _ in range(10)] for _ in range(20)]
 
 def displayBoard(mat):
     for i in range(10):
         for j in range(20):
             if old[j][i] != mat[j][i]:
                 if mat[j][i] == "r":
-                    tetrisBlock(i * 16 + 100, j * 16, red)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, red)
                 if mat[j][i] == "g":
-                    tetrisBlock(i * 16 + 100, j * 16, green)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, green)
                 if mat[j][i] == "d":
-                    tetrisBlock(i * 16 + 100, j * 16, dark)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, dark)
                 if mat[j][i] == "l":
-                    tetrisBlock(i * 16 + 100, j * 16, light)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, light)
                 if mat[j][i] == "y":
-                    tetrisBlock(i * 16 + 100, j * 16, yellow)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, yellow)
                 if mat[j][i] == "p":
-                    tetrisBlock(i * 16 + 100, j * 16, purple)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, purple)
                 if mat[j][i] == "o":
-                    tetrisBlock(i * 16 + 100, j * 16, orange)
+                    prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, orange)
                 if mat[j][i] == "0":
-                    splash.append(Rect(i * 16 + 100, j * 16, 16, 16, fill=0x000000, outline = 0x000000))
+                    popOne(prev[j][i])
+                    # hold = Rect(i * 16 + 100, j * 16, 16, 16, fill=0x000000, outline = 0x000000)
+                    # splash.append(hold)
                 old[j][i] = mat[j][i]
 
 def state1():
