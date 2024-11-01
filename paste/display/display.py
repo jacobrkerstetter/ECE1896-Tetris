@@ -270,11 +270,14 @@ def state3():
     text_group.append(text_area)  # Subgroup for text scaling
     splash.append(text_group)
 
-    text_group = displayio.Group(scale=2, x=160, y=125)
-    text = "#1: 00000 ZAC"
-    text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
-    text_group.append(text_area)  # Subgroup for text scaling
-    splash.append(text_group)
+    for i in range (10):
+        text_group = displayio.Group(scale=2, x=160, y=125 + i * 15)
+        score = 0
+        tag = "Zac"
+        text = "#" + i + " " + score + " " + tag
+        text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
+        text_group.append(text_area)  # Subgroup for text scaling
+        splash.append(text_group)
 
     text_group = displayio.Group(scale=2, x=380, y=275)
     text = "Back"
