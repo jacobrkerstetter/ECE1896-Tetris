@@ -30,6 +30,7 @@ D27     ->  X-
 
 """
 
+#Color arrays for tetris square [Main, Lighter, Darker]
 red = [0xFF0000, 0xFF5555, 0x990000]
 green = [0x00FF00, 0x55FF55, 0x009900]
 dark = [0x0000FF, 0x5555FF, 0x000099]
@@ -40,18 +41,21 @@ orange = [0xFF7F00, 0xFFFF55, 0x992900]
 
 # Release any resources currently in use for the displays
 displayio.release_displays()
+#Setup touchreen pins
 ts = adafruit_touchscreen.Touchscreen(board.A13, board.A11, board.D26, board.A10, calibration=((14810, 51555), (17403, 51095)), size=(480, 320))
 
+#Connect teensy SPI for display communcation
 spi = board.SPI()
 tft_cs = board.D9
 tft_dc = board.D10
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs)
 display = HX8357(display_bus, width=480, height=320)
+#Create Display splash
 splash = displayio.Group()
 display.root_group = splash
 
+#Function to color entire background
 def background(color):
-    # Draw a bright green background
     while len(splash) > 0:
         splash.pop()
     color_bitmap = displayio.Bitmap(480, 320, 1)
@@ -59,50 +63,55 @@ def background(color):
     color_palette[0] = color
     splash.append(displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0))
 
+#Create a tetris block given coordinates and color array and return array of splash
 def tetrisBlock(x, y, color):
+    #Create square using main color
     square = Rect(x,y,16,16, fill=color[0])
     splash.append(square)
 
-    points = [(x, y), (x + 15, y), (x + 13, y + 2), (x + 2, y + 2)]  # Adjust for size and shape
+    #Create top and left trapezoid using light color
+    points = [(x, y), (x + 15, y), (x + 13, y + 2), (x + 2, y + 2)]
     trapezoid1 = Polygon(points, outline=color[1])
     splash.append(trapezoid1)
-    points = [(x, y), (x, y + 15), (x + 2, y + 13), (x + 2, y + 2)]  # Adjust for size and shape
+    points = [(x, y), (x, y + 15), (x + 2, y + 13), (x + 2, y + 2)]
     trapezoid2 = Polygon(points, outline=color[1])
     splash.append(trapezoid2)
 
-
-    points = [(x + 15, y), (x + 15, y + 15), (x + 13, y + 13), (x + 13, y + 2)]  # Adjust for size and shape
+    #Create bottom and right trapezoid using dark color
+    points = [(x + 15, y), (x + 15, y + 15), (x + 13, y + 13), (x + 13, y + 2)]
     trapezoid3 = Polygon(points, outline=color[2])
     splash.append(trapezoid3)
-    points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]  # Adjust for size and shape
+    points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]
     trapezoid4 = Polygon(points, outline=color[2])
     splash.append(trapezoid4)
 
+    #Return Splash elements for further use
     return [square, trapezoid1, trapezoid2, trapezoid3, trapezoid4]
 
+#Create tetris sign using tetris block function
 def tetrisSign(x, y):
     #T
     time.sleep(0.5)
-    tetrisBlock(x, y, red)
-    tetrisBlock(x + 16, y, red)
-    tetrisBlock(x + 16*2, y, red)
-    tetrisBlock(x + 16, y + 16, red)
-    tetrisBlock(x + 16, y + 16*2, red)
-    tetrisBlock(x + 16, y + 16*3, red)
-    tetrisBlock(x + 16, y + 16*4, red)
+    tetrisBlock(x, y, purple)
+    tetrisBlock(x + 16, y, purple)
+    tetrisBlock(x + 16*2, y, purple)
+    tetrisBlock(x + 16, y + 16, purple)
+    tetrisBlock(x + 16, y + 16*2, purple)
+    tetrisBlock(x + 16, y + 16*3, purple)
+    tetrisBlock(x + 16, y + 16*4, purple)
     #E
     time.sleep(0.5)
-    tetrisBlock(x + 16*4, y, green)
-    tetrisBlock(x + 16*5, y, green)
-    tetrisBlock(x + 16*6, y, green)
-    tetrisBlock(x + 16*4, y + 16, green)
-    tetrisBlock(x + 16*4, y + 16*2, green)
-    tetrisBlock(x + 16*5, y + 16*2, green)
-    tetrisBlock(x + 16*4, y + 16, green)
-    tetrisBlock(x + 16*4, y + 16*3, green)
-    tetrisBlock(x + 16*4, y + 16*4, green)
-    tetrisBlock(x + 16*5, y + 16*4, green)
-    tetrisBlock(x + 16*6, y + 16*4, green)
+    tetrisBlock(x + 16*4, y, red)
+    tetrisBlock(x + 16*5, y, red)
+    tetrisBlock(x + 16*6, y, red)
+    tetrisBlock(x + 16*4, y + 16, red)
+    tetrisBlock(x + 16*4, y + 16*2, red)
+    tetrisBlock(x + 16*5, y + 16*2, red)
+    tetrisBlock(x + 16*4, y + 16, red)
+    tetrisBlock(x + 16*4, y + 16*3, red)
+    tetrisBlock(x + 16*4, y + 16*4, red)
+    tetrisBlock(x + 16*5, y + 16*4, red)
+    tetrisBlock(x + 16*6, y + 16*4, red)
     #T
     time.sleep(0.5)
     tetrisBlock(x + 16*8, y, dark)
@@ -114,77 +123,59 @@ def tetrisSign(x, y):
     tetrisBlock(x + 16*9, y + 16*4, dark)
     #R
     time.sleep(0.5)
-    tetrisBlock(x + 16*12, y, light)
-    tetrisBlock(x + 16*13, y, light)
-    tetrisBlock(x + 16*14, y, light)
-    tetrisBlock(x + 16*12, y + 16, light)
-    tetrisBlock(x + 16*14, y + 16, light)
-    tetrisBlock(x + 16*12, y + 16*2, light)
-    tetrisBlock(x + 16*13, y + 16*2, light)
-    tetrisBlock(x + 16*14, y + 16*2, light)
-    tetrisBlock(x + 16*12, y + 16*3, light)
-    tetrisBlock(x + 16*13, y + 16*3, light)
-    tetrisBlock(x + 16*12, y + 16*4, light)
-    tetrisBlock(x + 16*14, y + 16*4, light)
+    tetrisBlock(x + 16*12, y, green)
+    tetrisBlock(x + 16*13, y, green)
+    tetrisBlock(x + 16*14, y, green)
+    tetrisBlock(x + 16*12, y + 16, green)
+    tetrisBlock(x + 16*14, y + 16, green)
+    tetrisBlock(x + 16*12, y + 16*2, green)
+    tetrisBlock(x + 16*13, y + 16*2, green)
+    tetrisBlock(x + 16*14, y + 16*2, green)
+    tetrisBlock(x + 16*12, y + 16*3, green)
+    tetrisBlock(x + 16*13, y + 16*3, green)
+    tetrisBlock(x + 16*12, y + 16*4, green)
+    tetrisBlock(x + 16*14, y + 16*4, green)
     #I
     time.sleep(0.5)
-    tetrisBlock(x + 16*16, y, yellow)
-    tetrisBlock(x + 16*17, y, yellow)
-    tetrisBlock(x + 16*18, y, yellow)
-    tetrisBlock(x + 16*17, y + 16, yellow)
-    tetrisBlock(x + 16*17, y + 16*2, yellow)
-    tetrisBlock(x + 16*17, y + 16*3, yellow)
-    tetrisBlock(x + 16*16, y + 16*4, yellow)
-    tetrisBlock(x + 16*17, y + 16*4, yellow)
-    tetrisBlock(x + 16*18, y + 16*4, yellow)
+    tetrisBlock(x + 16*16, y, light)
+    tetrisBlock(x + 16*17, y, light)
+    tetrisBlock(x + 16*18, y, light)
+    tetrisBlock(x + 16*17, y + 16, light)
+    tetrisBlock(x + 16*17, y + 16*2, light)
+    tetrisBlock(x + 16*17, y + 16*3, light)
+    tetrisBlock(x + 16*16, y + 16*4, light)
+    tetrisBlock(x + 16*17, y + 16*4, light)
+    tetrisBlock(x + 16*18, y + 16*4, light)
     # S
     time.sleep(0.5)
-    tetrisBlock(x + 16*20, y, purple)
-    tetrisBlock(x + 16*21, y, purple)
-    tetrisBlock(x + 16*22, y, purple)
-    tetrisBlock(x + 16*20, y + 16, purple)
-    tetrisBlock(x + 16*20, y + 16*2, purple)
-    tetrisBlock(x + 16*21, y + 16*2, purple)
-    tetrisBlock(x + 16*22, y + 16*2, purple)
-    tetrisBlock(x + 16*22, y + 16*3, purple)
-    tetrisBlock(x + 16*20, y + 16*4, purple)
-    tetrisBlock(x + 16*21, y + 16*4, purple)
-    tetrisBlock(x + 16*22, y + 16*4, purple)
+    tetrisBlock(x + 16*20, y, orange)
+    tetrisBlock(x + 16*21, y, orange)
+    tetrisBlock(x + 16*22, y, orange)
+    tetrisBlock(x + 16*20, y + 16, orange)
+    tetrisBlock(x + 16*20, y + 16*2, orange)
+    tetrisBlock(x + 16*21, y + 16*2, orange)
+    tetrisBlock(x + 16*22, y + 16*2, orange)
+    tetrisBlock(x + 16*22, y + 16*3, orange)
+    tetrisBlock(x + 16*20, y + 16*4, orange)
+    tetrisBlock(x + 16*21, y + 16*4, orange)
+    tetrisBlock(x + 16*22, y + 16*4, orange)
 
     time.sleep(0.5)
 
-old = [['0' for _ in range(10)] for _ in range(20)]
-
-def newPiece():
-    pass
-    # while len(splash) > 3:
-    #     splash.pop()
-    # for i in range(10):
-    #     for j in range(20):
-    #         if old[j][i] == "r":
-    #             tetrisBlock(i * 16 + 100, j * 16, red)
-    #         if old[j][i] == "g":
-    #             tetrisBlock(i * 16 + 100, j * 16, green)
-    #         if old[j][i] == "d":
-    #             tetrisBlock(i * 16 + 100, j * 16, dark)
-    #         if old[j][i] == "l":
-    #             tetrisBlock(i * 16 + 100, j * 16, light)
-    #         if old[j][i] == "y":
-    #             tetrisBlock(i * 16 + 100, j * 16, yellow)
-    #         if old[j][i] == "p":
-    #             tetrisBlock(i * 16 + 100, j * 16, purple)
-    #         if old[j][i] == "o":
-    #             tetrisBlock(i * 16 + 100, j * 16, orange)
-
+#Function to pop an index array
 def popOne(pops):
     for part in pops:
         splash.remove(part)
 
+#Matrices to hold the old color and the previous pieces
+old = [['0' for _ in range(10)] for _ in range(20)]
 prev = [[0 for _ in range(10)] for _ in range(20)]
 
+#Function to take game array and draw and remove blocks as they fall or are cleared
 def displayBoard(mat):
     for i in range(10):
         for j in range(20):
+            #If there is a difference
             if old[j][i] != mat[j][i]:
                 if mat[j][i] == "r":
                     prev[j][i] = tetrisBlock(i * 16 + 100, j * 16, red)
@@ -206,27 +197,34 @@ def displayBoard(mat):
                     # splash.append(hold)
                 old[j][i] = mat[j][i]
 
+#Home screen state
 def state1():
+    #Clear entire board
     while len(splash) > 0:
             splash.pop()
+    #Setup background and tetris sign
     background(0x091C3B)
     tetrisSign(20, 20)
-    splash.append(RoundRect(10, 130, 300, 70, 5, fill=0xAA0088))
-    splash.append(RoundRect(10, 230, 300, 70, 5, fill=0xAA0088))
 
-    # Draw a label
+    #Create Start button
+    splash.append(RoundRect(10, 130, 300, 70, 5, fill=0xAA0088))
     text_group = displayio.Group(scale=3, x=20, y=165)
     text = "Touch to start!"
     text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
     text_group.append(text_area)  # Subgroup for text scaling
     splash.append(text_group)
 
+    #Create Leaderboard button
+    splash.append(RoundRect(10, 230, 300, 70, 5, fill=0xAA0088))
     text_group = displayio.Group(scale=3, x=60, y=265)
     text = "Leaderboard"
     text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
     text_group.append(text_area)  # Subgroup for text scaling
     splash.append(text_group)
 
+    #Create Help Button
+
+    #Loop to start searching for touch inputs for next state
     start = False
     while (not start):
             p = ts.touch_point
@@ -244,32 +242,37 @@ def state1():
     return nextState
 
 def state2():
+    #Clear board
     while len(splash) > 0:
             splash.pop()
-            
+    
+    #Set background and gameboard
     background(0x091C3B)
     splash.append(Rect(100,0,160,320, fill=0x000000))
 
+    #Create score counter
     text_group = displayio.Group(scale=2, x=300, y=20)
     text_area = label.Label(terminalio.FONT, text="Score: 0", color=0xFFFFFF)
     text_group.append(text_area)  # Subgroup for text scaling
     splash.append(text_group)
 
 def state3():
+    #Clear board
     while len(splash) > 0:
         splash.pop()
     background(0x091C3B)
+    
+    #Create leaderboard board
     splash.append(Rect(140, 20, 200, 70, outline=0xFFFFFF))
     splash.append(Rect(140, 90, 200, 210, outline=0xFFFFFF))
     splash.append(RoundRect(370, 250, 80, 50, 5, outline=0xFFFFFF))
-    
-    # Draw a label
     text_group = displayio.Group(scale=2, x=170, y=55)
     text = "Leaderboard"
     text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
-    text_group.append(text_area)  # Subgroup for text scaling
+    text_group.append(text_area)
     splash.append(text_group)
-
+    
+    #Display list of top 10 scores
     for i in range (10):
         text_group = displayio.Group(scale=2, x=160, y=125 + i * 15)
         score = 0
@@ -279,6 +282,7 @@ def state3():
         text_group.append(text_area)  # Subgroup for text scaling
         splash.append(text_group)
 
+    #
     text_group = displayio.Group(scale=2, x=380, y=275)
     text = "Back"
     text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
