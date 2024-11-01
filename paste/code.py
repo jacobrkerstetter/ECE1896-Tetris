@@ -5,6 +5,7 @@ background, a smaller purple rectangle, and some yellow text.
 import board
 from display.display import *
 from algorithm.game import *
+from controller.userInput import *
 
 state = 1
 
@@ -18,14 +19,26 @@ while True:
         # reset screen
         state2()
 
-        # initialize game
+        # initialize game and controls
         game = Game()
+        userControls = UserInput()
         while game.run:
             displayBoard(game.board.grid)
-            nextPiece = game.nextPiece
 
             # update game
             game.updateFallingBlock()
+
+            # get user input
+            input = userControls.pollInput()
+            if input == 'D':
+                game.currPiece.move(1, 0)
+            if input == 'L':
+                game.currPiece.move(0, -1)
+            if input == 'R':
+                game.currPiece.move(0, 1)
+            if input == 'U':
+                game.currPiece.rotate()
+
             game.getNextBlock()
 
         # when game is over, go to leaderboard

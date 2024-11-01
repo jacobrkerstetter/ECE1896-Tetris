@@ -31,17 +31,13 @@ class UserInput:
 
     def pollInput(self):
         if self.upButton.value == True:
-            print("Up")
-            time.sleep(0.2) # this is used as debouncing for pushbuttons
+            return 'U'
         elif self.rightButton.value == True:
-            print("Right")
-            time.sleep(0.2)
+            return 'R'
         elif self.downButton.value == True:
-            print("Down")
-            time.sleep(0.2)
+            return 'D'
         elif self.leftButton.value == True:
-            print("Left")
-            time.sleep(0.2)
+            return 'L'
 
 
 
