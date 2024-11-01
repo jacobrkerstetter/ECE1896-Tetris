@@ -57,8 +57,6 @@ class Game:
     def getNextBlock(self):
         # if piece cannot move down any further, start with new piece
         if self.changePiece:
-            newPiece()
-
             # clear rows that are full, track level and score
             numCleared = self.board.clearRows()
             prevCleared = self.linesCleared

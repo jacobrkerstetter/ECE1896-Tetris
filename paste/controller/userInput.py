@@ -31,15 +31,17 @@ class UserInput:
 
     def pollInput(self):
         if self.upButton.value == True:
+            time.sleep(0.2)
             return 'U'
         elif self.rightButton.value == True:
+            time.sleep(0.2)
             return 'R'
         elif self.downButton.value == True:
+            time.sleep(0.2)
             return 'D'
         elif self.leftButton.value == True:
+            time.sleep(0.2)
             return 'L'
-
-
 
 ''' THINGS TO DO:
 - what happens when user presses two or more buttons at once?
