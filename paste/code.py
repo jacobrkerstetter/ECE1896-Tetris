@@ -8,22 +8,23 @@ from algorithm.game import *
 from controller.userInput import *
 
 state = 1
+display = Display()
 
 while True:
     # Intro Screen State
     if (state == 1):
-        state = state1()
+        state = display.state1()
 
     # Gameplay State
     if (state == 2):
         # reset screen
-        state2()
+        display.state2()
 
         # initialize game and controls
-        game = Game()
+        game = Game(display)
         userControls = UserInput()
         while game.run:
-            displayBoard(game.board.grid)
+            display.displayBoard(game.board.grid)
 
             # update game
             game.updateFallingBlock()
@@ -45,4 +46,4 @@ while True:
         state = 3
 
     if (state == 3):
-        state = state3()
+        state = display.state3()

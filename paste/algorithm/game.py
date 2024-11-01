@@ -8,7 +8,9 @@ from algorithm.block import *
 from display.display import *
 
 class Game:
-    def __init__(self):
+    def __init__(self, display):
+        self.display = display
+
         # initialize score to 0 and level to 1
         self.score = 0
         self.linesCleared = 0
@@ -67,6 +69,7 @@ class Game:
                 self.levelThreshold += 10
 
             self.score += self.updateScore(numCleared)
+            self.display.scoreUpdate(self.score)
 
             # if nextPiece is overlapping a current piece, game over
             if not self.nextPiece.isValidSpace():
