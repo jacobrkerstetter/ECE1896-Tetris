@@ -3,8 +3,9 @@ import time
 import random
 
 # class imports
-from board import Board
-from block import *
+from algorithm.board import Board
+from algorithm.block import *
+from display.display import *
 
 class Game:
     def __init__(self):
@@ -14,7 +15,7 @@ class Game:
         self.level = 1
         self.levelThreshold = 10
 
-        # set up auto falling
+        # set up pygame clock
         self.startTime = time.time()
         self.fallTime = 0
         self.fallSpeed = 0.8
@@ -56,6 +57,8 @@ class Game:
     def getNextBlock(self):
         # if piece cannot move down any further, start with new piece
         if self.changePiece:
+            newPiece()
+
             # clear rows that are full, track level and score
             numCleared = self.board.clearRows()
             prevCleared = self.linesCleared
