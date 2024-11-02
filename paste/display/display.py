@@ -9,6 +9,7 @@ from adafruit_display_shapes.polygon import Polygon
 from adafruit_hx8357 import HX8357
 from adafruit_display_shapes.roundrect import RoundRect
 from adafruit_display_shapes.rect import Rect
+import gc
 
 """
 Dsiplay uses 5v and GND
@@ -51,10 +52,10 @@ class Display():
         tft_cs = board.D9
         tft_dc = board.D10
         display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs)
-        display = HX8357(display_bus, width=480, height=320)
+        self.display = HX8357(display_bus, width=480, height=320)
         #Create Display splash
         self.splash = displayio.Group()
-        display.root_group = self.splash
+        self.display.root_group = self.splash
 
         #Matrices to hold the old color and the previous pieces
         self.old = [['0' for _ in range(10)] for _ in range(20)]
@@ -101,7 +102,7 @@ class Display():
 #Create tetris sign using tetris block function
     def tetrisSign(self, x, y):
         #T
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.purple
         self.tetrisBlock(x, y, color)
         self.tetrisBlock(x + 16, y, color)
@@ -111,7 +112,7 @@ class Display():
         self.tetrisBlock(x + 16, y + 16*3, color)
         self.tetrisBlock(x + 16, y + 16*4, color)
         #E
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.red
         self.tetrisBlock(x + 16*4, y, color)
         self.tetrisBlock(x + 16*5, y, color)
@@ -125,7 +126,7 @@ class Display():
         self.tetrisBlock(x + 16*5, y + 16*4, color)
         self.tetrisBlock(x + 16*6, y + 16*4, color)
         #T
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.dark
         self.tetrisBlock(x + 16*8, y, color)
         self.tetrisBlock(x + 16*9, y, color)
@@ -135,7 +136,7 @@ class Display():
         self.tetrisBlock(x + 16*9, y + 16*3, color)
         self.tetrisBlock(x + 16*9, y + 16*4, color)
         #R
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.green
         self.tetrisBlock(x + 16*12, y, color)
         self.tetrisBlock(x + 16*13, y, color)
@@ -149,7 +150,7 @@ class Display():
         self.tetrisBlock(x + 16*12, y + 16*4, color)
         self.tetrisBlock(x + 16*14, y + 16*4, color)
         #I
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.light
         self.tetrisBlock(x + 16*16, y, color)
         self.tetrisBlock(x + 16*17, y, color)
@@ -161,7 +162,7 @@ class Display():
         self.tetrisBlock(x + 16*17, y + 16*4, color)
         self.tetrisBlock(x + 16*18, y + 16*4, color)
         # S
-        time.sleep(0.1)
+        time.sleep(0.3)
         color = self.orange
         self.tetrisBlock(x + 16*20, y, color)
         self.tetrisBlock(x + 16*21, y, color)
@@ -175,7 +176,7 @@ class Display():
         self.tetrisBlock(x + 16*21, y + 16*4, color)
         self.tetrisBlock(x + 16*22, y + 16*4, color)
 
-        time.sleep(0.1)
+        time.sleep(0.3)
 
     #Function to pop an index array
     def popOne(self, pops):
@@ -223,6 +224,11 @@ class Display():
         #Clear entire board
         while len(self.splash) > 0:
                 self.splash.pop()
+        # self.display.root_group = None
+        # gc.collect()
+        # self.splash = displayio.Group()
+        # self.display.root_group = self.splash
+
         #Setup background and tetris sign
         self.background(0x091C3B)
         self.tetrisSign(20, 20)
@@ -266,9 +272,9 @@ class Display():
                         start = True
                         
                     if(x > 160  and x < 480 and y > 180 and y < 250):
-                        nextState = 4
+                        nextState = 5
                         self.homeOutline(nextState)
-                        #start = True
+                        start = True
                         
                     if(x > 160  and x < 480 and y > 250 and y < 320):
                         nextState = 3
@@ -356,3 +362,40 @@ class Display():
                 print("y= ", y)
             
         return nextState
+    
+
+    def state4(self):
+        while len(self.splash) > 0:
+            self.splash.pop()
+        return 1
+    
+    def state5(self):
+        while len(self.splash) > 0:
+            self.splash.pop()
+        self.background(0x091C3B)
+        layout = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+        for i in range(10):
+            self.splash.append(RoundRect(i * 35 + 70, 100, 25, 25, 3, outline=0xFFFFFF))
+
+            text_group = displayio.Group(scale=2, x=i * 35 + 75, y=112)
+            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            self.splash.append(text_group)
+
+        layout = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+        for i in range(9):
+            self.splash.append(RoundRect(i * 35 + 87, 170, 25, 25, 3, outline=0xFFFFFF))
+
+            text_group = displayio.Group(scale=2, x=i * 35 + 92, y=182)
+            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            self.splash.append(text_group)
+
+        layout = ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ']
+        for i in range(8):
+            self.splash.append(RoundRect(i * 35 + 105, 240, 25, 25, 3, outline=0xFFFFFF))
+
+            text_group = displayio.Group(scale=2, x=i * 35 + 111, y=252)
+            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            self.splash.append(text_group)
+        time.sleep(5)
+        return 1
+    

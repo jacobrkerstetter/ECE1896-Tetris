@@ -47,3 +47,9 @@ while True:
 
     if (state == 3):
         state = display.state3()
+
+    if (state == 4):
+        state = display.state4()
+
+    if (state == 5):
+        state = display.state5()
