@@ -62,6 +62,8 @@ class Display():
 
         self.currScore = displayio.Group(scale=2, x=300, y=20)
 
+        self.highlight = displayio.Group(scale=2, x=300, y=20)
+
     #Function to color entire background
     def background(self, color):
         while len(self.splash) > 0:
@@ -71,7 +73,7 @@ class Display():
         color_palette[0] = color
         self.splash.append(displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0))
 
-#Create a tetris block given coordinates and color array and return array of splash
+    #Create a tetris block given coordinates and color array and return array of splash
     def tetrisBlock(self, x, y, color):
         #Create square using main color
         square = Rect(x,y,16,16, fill=color[0])
@@ -226,39 +228,69 @@ class Display():
         self.tetrisSign(20, 20)
 
         #Create Start button
-        self.splash.append(RoundRect(10, 130, 300, 70, 5, fill=0xAA0088))
-        text_group = displayio.Group(scale=3, x=20, y=165)
+        self.splash.append(RoundRect(10, 120, 300, 50, 5, fill=0xAA0088))
+        text_group = displayio.Group(scale=3, x=20, y=145)
         text = "Touch to start!"
         text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
         text_group.append(text_area)  # Subgroup for text scaling
         self.splash.append(text_group)
 
+        #Create Help Button
+        self.splash.append(RoundRect(10, 190, 300, 50, 5, fill=0xAA0088))
+        text_group = displayio.Group(scale=3, x=110, y=215)
+        text = "Help"
+        text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
+        text_group.append(text_area)  # Subgroup for text scaling
+        self.splash.append(text_group)
+
         #Create Leaderboard button
-        self.splash.append(RoundRect(10, 230, 300, 70, 5, fill=0xAA0088))
-        text_group = displayio.Group(scale=3, x=60, y=265)
+        self.splash.append(RoundRect(10, 260, 300, 50, 5, fill=0xAA0088))
+        text_group = displayio.Group(scale=3, x=60, y=285)
         text = "Leaderboard"
         text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
         text_group.append(text_area)  # Subgroup for text scaling
         self.splash.append(text_group)
 
-        #Create Help Button
-
         #Loop to start searching for touch inputs for next state
+        self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
+        self.splash.append(self.highlight)
+
         start = False
         while (not start):
                 p = self.ts.touch_point
                 if p:
                     x, y, pressure = p
-                    if(x > 170  and x < 470 and y > 130 and y < 200):
+                    if(x > 160  and x < 480 and y > 110 and y < 180):
                         nextState = 2
+                        self.homeOutline(nextState)
                         start = True
-                    if(x > 170  and x < 470 and y > 230 and y < 300):
+                        
+                    if(x > 160  and x < 480 and y > 180 and y < 250):
+                        nextState = 4
+                        self.homeOutline(nextState)
+                        #start = True
+                        
+                    if(x > 160  and x < 480 and y > 250 and y < 320):
                         nextState = 3
+                        self.homeOutline(nextState)
                         start = True
+                        
                     print("x= ", x)
                     print("y= ", y)
 
         return nextState
+    
+    def homeOutline(self, i):
+        self.splash.remove(self.highlight)
+        if(i == 2):
+            self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
+        elif(i == 4):
+            self.highlight = RoundRect(10, 190, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
+        else:
+            self.highlight = RoundRect(10, 260, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
 
     def state2(self):
         #Clear board
