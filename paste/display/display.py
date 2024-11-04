@@ -10,6 +10,7 @@ from adafruit_hx8357 import HX8357
 from adafruit_display_shapes.roundrect import RoundRect
 from adafruit_display_shapes.rect import Rect
 import gc
+from algorithm.game import *
 
 """
 Dsiplay uses 5v and GND
@@ -61,9 +62,12 @@ class Display():
         self.old = [['0' for _ in range(10)] for _ in range(20)]
         self.prev = [[0 for _ in range(10)] for _ in range(20)]
 
-        self.currScore = displayio.Group(scale=2, x=300, y=20)
+        self.currScore = 0
 
-        self.highlight = displayio.Group(scale=2, x=300, y=20)
+        self.highlight = 0
+
+        self.prevPiece = 0
+        self.prevPieceSplash = 0
 
     #Function to color entire background
     def background(self, color):
@@ -193,8 +197,53 @@ class Display():
         self.currScore = text_group
         self.splash.append(text_group)
 
+    def displayNext(self, nextPiece):
+        if(self.prevPiece != nextPiece):
+            self.prevPiece = nextPiece
+            for part in self.prevPieceSplash:
+                    self.splash.remove(part)
+            if(isinstance(nextPiece,JBlock)):
+                self.prevPieceSplash = self.tetrisBlock(300, 80 ,self.light)
+                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.light)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.light)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.light)
+            if(isinstance(nextPiece,LBlock)):
+                self.prevPieceSplash = self.tetrisBlock(300, 96 ,self.orange)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.orange)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.orange)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 80 ,self.orange)
+            if(isinstance(nextPiece,IBlock)):
+                self.prevPieceSplash = self.tetrisBlock(300, 96 ,self.dark)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.dark)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.dark)
+                self.prevPieceSplash.append = self.tetrisBlock(348, 96 ,self.dark)
+            if(isinstance(nextPiece,SBlock)):
+                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.green)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.green)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.green)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 112 ,self.green)
+            if(isinstance(nextPiece,TBlock)):
+                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.purple)
+                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.purple)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.purple)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.purple)
+            if(isinstance(nextPiece,ZBlock)):
+                self.prevPieceSplash = self.tetrisBlock(300, 112 ,self.red)
+                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.red)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.red)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 80 ,self.red)
+            if(isinstance(nextPiece,OBlock)):
+                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.yellow)
+                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.yellow)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 80 ,self.yellow)
+                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.yellow)
+
+
+
     #Function to take game array and draw and remove blocks as they fall or are cleared
-    def displayBoard(self, mat):
+    def displayBoard(self, mat, nextPiece):
+        self.displayNext(nextPiece)
+
         for i in range(10):
             for j in range(20):
                 #If there is a difference
@@ -313,6 +362,15 @@ class Display():
         self.currScore = text_group
         self.splash.append(text_group)
 
+        text_group = displayio.Group(scale=2, x=300, y=50)
+        text_area = label.Label(terminalio.FONT, text="Next Piece:", color=0xFFFFFF)
+        text_group.append(text_area)  # Subgroup for text scaling
+        self.currScore = text_group
+        self.splash.append(text_group)
+
+        self.splash.append(Rect(300,80,64,48, fill=0x000000, outline=0xFFFFFF))
+
+
 
     
 
@@ -396,6 +454,11 @@ class Display():
             text_group = displayio.Group(scale=2, x=i * 35 + 111, y=252)
             text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
             self.splash.append(text_group)
+
+        self.splash.append(Rect( 188, 80, 25, 3, fill=0xFFFFFF))
+        self.splash.append(Rect( 228, 80, 25, 3, fill=0xFFFFFF))
+        self.splash.append(Rect( 268, 80, 25, 3, fill=0xFFFFFF))
         time.sleep(5)
+
         return 1
     
