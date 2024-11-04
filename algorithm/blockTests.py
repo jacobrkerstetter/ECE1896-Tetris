@@ -328,5 +328,32 @@ class TestBoardMethods(unittest.TestCase):
         self.assertEqual(board.grid[1][0], 'l')
         self.assertEqual(board.grid[2][0], 'l')
 
+    def testHardDrop(self):
+        # add J Block to board
+        board = Board()
+        testBlock = JBlock(board)
+        testBlock.hardDrop()
+
+        self.assertEqual(board.grid[18][4], 'l')
+        self.assertEqual(board.grid[19][4], 'l')
+        self.assertEqual(board.grid[19][5], 'l')
+        self.assertEqual(board.grid[19][6], 'l')
+
+        testBlock = JBlock(board)
+        testBlock.hardDrop()
+
+        # check first block again
+        self.assertEqual(board.grid[18][4], 'l')
+        self.assertEqual(board.grid[19][4], 'l')
+        self.assertEqual(board.grid[19][5], 'l')
+        self.assertEqual(board.grid[19][6], 'l')
+
+        # check new block
+        self.assertEqual(board.grid[16][4], 'l')
+        self.assertEqual(board.grid[17][4], 'l')
+        self.assertEqual(board.grid[17][5], 'l')
+        self.assertEqual(board.grid[17][6], 'l')
+
+
 if __name__ == '__main__':
     unittest.main()
