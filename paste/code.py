@@ -24,7 +24,7 @@ while True:
         game = Game(display)
         userControls = UserInput()
         while game.run:
-            display.displayBoard(game.board.grid)
+            display.displayBoard(game.board.grid, game.nextPiece)
 
             # update game
             game.updateFallingBlock()
