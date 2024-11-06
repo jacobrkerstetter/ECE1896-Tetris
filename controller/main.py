@@ -4,6 +4,7 @@ Tetris Controller Program
 Written by Cassandra Oliva Pace
 '''
 
+
 import board
 import digitalio
 import keypad
@@ -42,14 +43,3 @@ class UserInput:
         elif self.leftButton.value == True:
             print("Left")
             time.sleep(0.2)
-
-
-
-''' THINGS TO DO:
-- what happens when user presses two or more buttons at once?
-    - if you want both actions of both buttons done simulataneously, include individual IF statements
-    without ELSE
-    - if you want only one action done at a time, use the ELSE statement
-    (however, notice that this will prioritize the buttons in the order of their IF statements
-- how to disable buttons when in certain menus?
-'''
