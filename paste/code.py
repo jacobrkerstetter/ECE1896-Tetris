@@ -24,7 +24,7 @@ while True:
         game = Game(display)
         userControls = UserInput()
         while game.run:
-            display.displayBoard(game.board.grid)
+            display.displayBoard(game.board.grid, game.nextPiece)
 
             # update game
             game.updateFallingBlock()
@@ -47,3 +47,9 @@ while True:
 
     if (state == 3):
         state = display.state3()
+
+    if (state == 4):
+        state = display.state4()
+
+    if (state == 5):
+        state = display.state5()
