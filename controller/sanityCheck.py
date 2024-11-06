@@ -1,7 +1,9 @@
-# ---------------------------------------------------------------------------------------------------------
-# This file includes the most basic code for the controller to ensure all input buttons function correctly.
-# If this code cannot properly run, there is something wrong with the hardware connections or the Teensy
-# ---------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------------------------
+#       ***  FOR INDIVIAL CONTROLLER TESTING ONLY - DO NOT ADD THIS FILE OR ITS CODE TO THE ACTUAL TETRIS PROGRAM  ***
+
+# This file is for "sanity check" and includes only the most basic code for the controller to ensure all input buttons function correctly.
+# If this code cannot properly run, there is something wrong with the hardware connections or the Teensy.
+# ----------------------------------------------------------------------------------------------------------------------------------------
 
 import board
 import time

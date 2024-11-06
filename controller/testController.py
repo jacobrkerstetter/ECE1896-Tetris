@@ -1,8 +1,9 @@
-'''
-ECE1896 Senior Design
-Tetris Controller Program
-Written by Cassandra Oliva Pace
-'''
+# ----------------------------------------------------------------------------------------------------------------------------------------
+# Controller Program for TESTING - PLEASE DO NOT EDIT THIS DIRECTLY
+
+# ECE 1896 Senior Design
+# Written by Cassandra Oliva Pace
+# ----------------------------------------------------------------------------------------------------------------------------------------
 
 # TO DO: how to disable buttons when in certain menus?
 
@@ -10,10 +11,11 @@ import board
 import keypad
 import supervisor
 
-
+# create a keys object for all controller button pins
 buttons = keypad.Keys((board.D2, board.D3, board.D4, board.D5, board.D6, board.D7), value_when_pressed = True, pull = True, interval = 0.05, max_events = 1)
 currentEvent = keypad.Event()
 
+# create events for each button to compare with
 upButton = keypad.Event(0, True)  # Button D2 pressed
 rightButton = keypad.Event(1, True)  # Button D3 pressed
 downButton = keypad.Event(2, True)  # Button D4 pressed
