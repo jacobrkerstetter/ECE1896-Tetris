@@ -33,8 +33,9 @@ D27     ->  X-
 """
 
 class Display():
+    #Private variable creation
     def __init__(self):
-    #Color arrays for tetris square [Main, Lighter, Darker]
+        #Color arrays for tetris square [Main, Lighter, Darker]
         self.red = [0xFF0000, 0xFF5555, 0x990000]
         self.green = [0x00FF00, 0x55FF55, 0x009900]
         self.dark = [0x0000FF, 0x5555FF, 0x000099]
@@ -62,12 +63,21 @@ class Display():
         self.old = [['0' for _ in range(10)] for _ in range(20)]
         self.prev = [[0 for _ in range(10)] for _ in range(20)]
 
+        #Hold for current game score splash
         self.currScore = 0
 
+        #Hold for current highlight
         self.highlight = 0
 
+        #Holds for previous piece and previous piece splash
         self.prevPiece = 0
         self.prevPieceSplash = 0
+
+        #Holds for highlight index
+        self.xindex = 0
+        self.yindex = 0
+
+        self.layout = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ']]
 
     #Function to color entire background
     def background(self, color):
@@ -99,6 +109,25 @@ class Display():
         points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]
         trapezoid4 = Polygon(points, outline=color[2])
         self.splash.append(trapezoid4)
+
+        #Return Splash elements for further use
+        return [square, trapezoid1, trapezoid2, trapezoid3, trapezoid4]
+
+    def tetrisBlockParts(self, x, y, color):
+        #Create square using main color
+        square = Rect(x,y,16,16, fill=color[0])
+
+        #Create top and left trapezoid using light color
+        points = [(x, y), (x + 15, y), (x + 13, y + 2), (x + 2, y + 2)]
+        trapezoid1 = Polygon(points, outline=color[1])
+        points = [(x, y), (x, y + 15), (x + 2, y + 13), (x + 2, y + 2)]
+        trapezoid2 = Polygon(points, outline=color[1])
+
+        #Create bottom and right trapezoid using dark color
+        points = [(x + 15, y), (x + 15, y + 15), (x + 13, y + 13), (x + 13, y + 2)]
+        trapezoid3 = Polygon(points, outline=color[2])
+        points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]
+        trapezoid4 = Polygon(points, outline=color[2])
 
         #Return Splash elements for further use
         return [square, trapezoid1, trapezoid2, trapezoid3, trapezoid4]
@@ -179,7 +208,6 @@ class Display():
         self.tetrisBlock(x + 16*20, y + 16*4, color)
         self.tetrisBlock(x + 16*21, y + 16*4, color)
         self.tetrisBlock(x + 16*22, y + 16*4, color)
-
         time.sleep(0.3)
 
     #Function to pop an index array
@@ -187,63 +215,74 @@ class Display():
         for part in pops:
             self.splash.remove(part)
 
-
+    #Function that recives score and updates the current score
     def scoreUpdate(self, score):
+        #Remove previous score
         self.splash.remove(self.currScore)
         #Create score counter
         text_group = displayio.Group(scale=2, x=300, y=20)
         text_area = label.Label(terminalio.FONT, text="Score: " + str(score), color=0xFFFFFF)
-        text_group.append(text_area)  # Subgroup for text scaling
+        text_group.append(text_area)
         self.currScore = text_group
         self.splash.append(text_group)
 
+    #Function that dsplays the upcoming tetris piece
     def displayNext(self, nextPiece):
+        
+        #Remove the previous next if there is a difference
         if(self.prevPiece != nextPiece):
             self.prevPiece = nextPiece
-            for part in self.prevPieceSplash:
-                    self.splash.remove(part)
+            if hasattr(self, 'prevPieceSplash') and self.prevPieceSplash in self.splash:
+                self.splash.remove(self.prevPieceSplash)
+            self.prevPieceSplash = displayio.Group()
+            self.splash.append(self.prevPieceSplash)
+            #Display a default J block
             if(isinstance(nextPiece,JBlock)):
-                self.prevPieceSplash = self.tetrisBlock(300, 80 ,self.light)
-                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.light)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.light)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.light)
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 80 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.light))
+            #Display a default L block
             if(isinstance(nextPiece,LBlock)):
-                self.prevPieceSplash = self.tetrisBlock(300, 96 ,self.orange)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.orange)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.orange)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 80 ,self.orange)
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 ,self.orange))
+            #Display a default I block
             if(isinstance(nextPiece,IBlock)):
-                self.prevPieceSplash = self.tetrisBlock(300, 96 ,self.dark)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.dark)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.dark)
-                self.prevPieceSplash.append = self.tetrisBlock(348, 96 ,self.dark)
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.dark))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.dark))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.dark))
+                self.prevPieceSplash.append(self.tetrisBlockParts(348, 96 ,self.dark))
+            #Display a default S block
             if(isinstance(nextPiece,SBlock)):
-                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.green)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.green)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.green)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 112 ,self.green)
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 112 ,self.green))
+            #Display a default T block
             if(isinstance(nextPiece,TBlock)):
-                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.purple)
-                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.purple)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.purple)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.purple)
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.purple))
+            #Dsiplay a default Z block
             if(isinstance(nextPiece,ZBlock)):
-                self.prevPieceSplash = self.tetrisBlock(300, 112 ,self.red)
-                self.prevPieceSplash.append = self.tetrisBlock(300, 96 ,self.red)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.red)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 80 ,self.red)
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 112 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.red))
+            #Display a default O block
             if(isinstance(nextPiece,OBlock)):
-                self.prevPieceSplash = self.tetrisBlock(316, 80 ,self.yellow)
-                self.prevPieceSplash.append = self.tetrisBlock(316, 96 ,self.yellow)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 80 ,self.yellow)
-                self.prevPieceSplash.append = self.tetrisBlock(332, 96 ,self.yellow)
-
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.yellow))
 
 
     #Function to take game array and draw and remove blocks as they fall or are cleared
     def displayBoard(self, mat, nextPiece):
         self.displayNext(nextPiece)
-
         for i in range(10):
             for j in range(20):
                 #If there is a difference
@@ -264,8 +303,6 @@ class Display():
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.orange)
                     if mat[j][i] == "0":
                         self.popOne(self.prev[j][i])
-                        # hold = Rect(i * 16 + 100, j * 16, 16, 16, fill=0x000000, outline = 0x000000)
-                        # splash.append(hold)
                     self.old[j][i] = mat[j][i]
 
     #Home screen state
@@ -273,10 +310,6 @@ class Display():
         #Clear entire board
         while len(self.splash) > 0:
                 self.splash.pop()
-        # self.display.root_group = None
-        # gc.collect()
-        # self.splash = displayio.Group()
-        # self.display.root_group = self.splash
 
         #Setup background and tetris sign
         self.background(0x091C3B)
@@ -368,7 +401,7 @@ class Display():
         self.currScore = text_group
         self.splash.append(text_group)
 
-        self.splash.append(Rect(300,80,64,48, fill=0x000000, outline=0xFFFFFF))
+        self.splash.append(Rect(299,80,66,48, fill=0x000000, outline=0xFFFFFF))
 
 
 
@@ -431,34 +464,77 @@ class Display():
         while len(self.splash) > 0:
             self.splash.pop()
         self.background(0x091C3B)
-        layout = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
         for i in range(10):
             self.splash.append(RoundRect(i * 35 + 70, 100, 25, 25, 3, outline=0xFFFFFF))
 
             text_group = displayio.Group(scale=2, x=i * 35 + 75, y=112)
-            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            text_group.append(label.Label(terminalio.FONT, text=self.layout[0][i], color=0xFFFFFF))
             self.splash.append(text_group)
 
-        layout = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
         for i in range(9):
             self.splash.append(RoundRect(i * 35 + 87, 170, 25, 25, 3, outline=0xFFFFFF))
 
             text_group = displayio.Group(scale=2, x=i * 35 + 92, y=182)
-            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            text_group.append(label.Label(terminalio.FONT, text=self.layout[1][i], color=0xFFFFFF))
             self.splash.append(text_group)
 
-        layout = ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ']
         for i in range(8):
             self.splash.append(RoundRect(i * 35 + 105, 240, 25, 25, 3, outline=0xFFFFFF))
 
             text_group = displayio.Group(scale=2, x=i * 35 + 111, y=252)
-            text_group.append(label.Label(terminalio.FONT, text=layout[i], color=0xFFFFFF))  # Subgroup for text scaling
+            text_group.append(label.Label(terminalio.FONT, text=self.layout[2][i], color=0xFFFFFF))
             self.splash.append(text_group)
 
         self.splash.append(Rect( 188, 80, 25, 3, fill=0xFFFFFF))
         self.splash.append(Rect( 228, 80, 25, 3, fill=0xFFFFFF))
         self.splash.append(Rect( 268, 80, 25, 3, fill=0xFFFFFF))
-        time.sleep(5)
 
+        self.highlight = [[],[],[]]
+        for i in range(10):
+            self.highlight[0].append(RoundRect(i * 35 + 70, 100, 25, 25, 3, outline=0xFFFF00))
+        for i in range(9):
+            self.highlight[1].append(RoundRect(i * 35 + 87, 170, 25, 25, 3, outline=0xFFFF00))
+        for i in range(8):
+            self.highlight[2].append(RoundRect(i * 35 + 105, 240, 25, 25, 3, outline=0xFFFF00))
+        self.splash.append(self.highlight[0][0])
+        self.xindex = 0
+        self.yindex = 0
+        time.sleep(5)
         return 1
     
+    def useKeyboard(self, direction):
+        self.splash.remove(self.highlight[self.xindex][self.yindex])
+        if direction == 'D':
+            if self.yindex != 2:
+                if self.yindex == 0:
+                    if self.xindex == 9:
+                        self.xindex = 8
+                if self.yindex == 1:
+                    if self.xindex == 8:
+                        self.xindex = 7
+                self.yindex = self.yindex + 1
+        if direction == 'L':
+            if self.xindex != 0:
+                self.xindex = self.xindex - 1
+        if direction == 'R':
+            if self.yindex == 0:
+                if self.xindex != 9:
+                    self.xindex = self.xindex + 1
+            if self.yindex == 1:
+                if self.xindex != 8:
+                    self.xindex = self.xindex + 1
+            if self.yindex == 2:
+                if self.xindex != 7:
+                    self.xindex = self.xindex + 1
+        if direction == 'U':
+            if self.yindex != 0:
+                self.yindex = self.yindex - 1
+            self.splash.append(self.highlight[self.xindex][self.yindex])
+        if direction == 'A':
+            pass
+        
+
+
+
+
+        
