@@ -45,7 +45,6 @@ class Game:
 
     # function to make block fall automatically
     def updateFallingBlock(self):
-        print(time.time() - self.startTime)
         if (time.time() - self.startTime) >= self.fallSpeed:
             self.startTime = time.time()
 

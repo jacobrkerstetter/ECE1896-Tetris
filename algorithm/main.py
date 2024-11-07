@@ -92,6 +92,8 @@ def main():
             game.currPiece.move(0, 1)
         if key == curses.KEY_UP:
             game.currPiece.rotate()
+        if key == ord('b'):
+            game.currPiece.hardDrop()
 
         game.getNextBlock()
 
