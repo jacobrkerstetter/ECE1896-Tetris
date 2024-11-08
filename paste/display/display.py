@@ -3,12 +3,12 @@ import time
 import terminalio
 import displayio
 import adafruit_touchscreen
-import adafruit_sdcard
 from adafruit_display_text import label
 from adafruit_display_shapes.polygon import Polygon
 from adafruit_hx8357 import HX8357
 from adafruit_display_shapes.roundrect import RoundRect
 from adafruit_display_shapes.rect import Rect
+from adafruit_display_shapes.circle import Circle
 import gc
 from algorithm.game import *
 
@@ -71,18 +71,16 @@ class Display():
 
         #Holds for previous piece and previous piece splash
         self.prevPiece = 0
-        self.prevPieceSplash = 0
+        self.prevPieceSplash = None
 
         #Holds for highlight index
         self.xindex = 0
         self.yindex = 0
-
+        #Hold for keyboard layout
         self.layout = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ']]
 
     #Function to color entire background
     def background(self, color):
-        while len(self.splash) > 0:
-            self.splash.pop()
         color_bitmap = displayio.Bitmap(480, 320, 1)
         color_palette = displayio.Palette(1)
         color_palette[0] = color
@@ -129,6 +127,7 @@ class Display():
         points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]
         trapezoid4 = Polygon(points, outline=color[2])
         
+        #Create Displayio group 
         group = displayio.Group()
         group.append(square)
         group.append(trapezoid1)
@@ -139,7 +138,7 @@ class Display():
         #Return Splash elements for further use
         return group
 
-#Create tetris sign using tetris block function
+    #Create tetris sign using tetris block function
     def tetrisSign(self, x, y):
         #T
         time.sleep(0.3)
@@ -215,7 +214,6 @@ class Display():
         self.tetrisBlock(x + 16*20, y + 16*4, color)
         self.tetrisBlock(x + 16*21, y + 16*4, color)
         self.tetrisBlock(x + 16*22, y + 16*4, color)
-        time.sleep(0.3)
 
     #Function to pop an index array
     def popOne(self, pops):
@@ -235,25 +233,24 @@ class Display():
 
     #Function that dsplays the upcoming tetris piece
     def displayNext(self, nextPiece):
-        
         #Remove the previous next if there is a difference
         if(self.prevPiece != nextPiece):
-            if(self.prevPieceSplash != 0):
+            if self.prevPieceSplash is not None:
                 self.popOne(self.prevPieceSplash)
             self.prevPiece = nextPiece
             #Display a default J block
             self.prevPieceSplash = []
             if(isinstance(nextPiece,JBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 80 ,self.light))
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.light))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.light))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 80 + 8 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 96 + 8 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 96 + 8 ,self.light))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 96 + 8 ,self.light))
             #Display a default L block
             if(isinstance(nextPiece,LBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.orange))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.orange))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.orange))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 96 + 8 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 96 + 8 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 96 + 8 ,self.orange))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 80 + 8 ,self.orange))
             #Display a default I block
             if(isinstance(nextPiece,IBlock)):
                 self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.dark))
@@ -262,28 +259,28 @@ class Display():
                 self.prevPieceSplash.append(self.tetrisBlockParts(348, 96 ,self.dark))
             #Display a default S block
             if(isinstance(nextPiece,SBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.green))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.green))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.green))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 112 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 96 + 8 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 96 + 8 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 80 + 8 ,self.green))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 80 + 8 ,self.green))
             #Display a default T block
             if(isinstance(nextPiece,TBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.purple))
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.purple))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.purple))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 80 + 8 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 96 + 8 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 96 + 8 ,self.purple))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 96 + 8 ,self.purple))
             #Dsiplay a default Z block
             if(isinstance(nextPiece,ZBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 112 ,self.red))
-                self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.red))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.red))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(300 + 8, 80 + 8 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 80 + 8 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316 + 8, 96 + 8 ,self.red))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332 + 8, 96 + 8 ,self.red))
             #Display a default O block
             if(isinstance(nextPiece,OBlock)):
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 ,self.yellow))
-                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.yellow))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 ,self.yellow))
-                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 80 + 8 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 + 8 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 + 8 ,self.yellow))
+                self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 + 8 ,self.yellow))
             for part in self.prevPieceSplash:
                 self.splash.append(part)
 
@@ -316,6 +313,9 @@ class Display():
     #Home screen state
     def state1(self):
         #Clear entire board
+        self.clearMem()
+        self.old = [['0' for _ in range(10)] for _ in range(20)]
+        self.prevPieceSplash = None
         while len(self.splash) > 0:
                 self.splash.pop()
 
@@ -358,17 +358,17 @@ class Display():
                     x, y, pressure = p
                     if(x > 160  and x < 480 and y > 110 and y < 180):
                         nextState = 2
-                        self.homeOutline(nextState)
+                        self.homeOutline(1)
                         start = True
                         
                     if(x > 160  and x < 480 and y > 180 and y < 250):
-                        nextState = 5
-                        self.homeOutline(nextState)
+                        nextState = 4
+                        self.homeOutline(2)
                         start = True
                         
                     if(x > 160  and x < 480 and y > 250 and y < 320):
                         nextState = 3
-                        self.homeOutline(nextState)
+                        self.homeOutline(3)
                         start = True
                         
                     print("x= ", x)
@@ -378,10 +378,10 @@ class Display():
     
     def homeOutline(self, i):
         self.splash.remove(self.highlight)
-        if(i == 2):
+        if(i == 1):
             self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
             self.splash.append(self.highlight)
-        elif(i == 4):
+        elif(i == 2):
             self.highlight = RoundRect(10, 190, 300, 50, 5, outline = 0xFFFF00)
             self.splash.append(self.highlight)
         else:
@@ -417,7 +417,7 @@ class Display():
 
     def state3(self):
         #Clear board
-        self.prevPieceSplash = 0
+        self.clearMem()
         while len(self.splash) > 0:
             self.splash.pop()
         self.background(0x091C3B)
@@ -436,10 +436,11 @@ class Display():
             text_group = displayio.Group(scale=1, x=160, y=120 + i * 15)
             score = 0
             tag = "Zac"
-            text = "#" + str(i) + " " + str(score) + " " + tag
+            text = "#" + str(i+1) + " " + str(score) + " " + tag
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling
             self.splash.append(text_group)
+            time.sleep(0.1)
 
         #Create Back button
         self.splash.append(RoundRect(370, 250, 80, 50, 5, outline=0xFFFFFF))
@@ -467,6 +468,15 @@ class Display():
     def state4(self):
         while len(self.splash) > 0:
             self.splash.pop()
+        self.background(0xFFB22E)
+        self.splash.append(Circle(100, 160, 20, outline=0xFF0000, fill=0xFF0000))
+        self.splash.append(Circle(170, 160, 20, outline=0xFF0000, fill=0xFF0000))
+        self.splash.append(Circle(135, 125, 20, outline=0xFF0000, fill=0xFF0000))
+        self.splash.append(Circle(135, 195, 20, outline=0xFF0000, fill=0xFF0000))
+
+        self.splash.append(Circle(310, 160, 20, outline=0xFF0000, fill=0xFF0000))
+        self.splash.append(Circle(345, 125, 20, outline=0xFF0000, fill=0xFF0000))
+        time.sleep(5)
         return 1
     
     def state5(self):
@@ -479,6 +489,7 @@ class Display():
             text_group = displayio.Group(scale=2, x=i * 35 + 75, y=112)
             text_group.append(label.Label(terminalio.FONT, text=self.layout[0][i], color=0xFFFFFF))
             self.splash.append(text_group)
+            time.sleep(0.1)
 
         for i in range(9):
             self.splash.append(RoundRect(i * 35 + 87, 170, 25, 25, 3, outline=0xFFFFFF))
@@ -486,6 +497,7 @@ class Display():
             text_group = displayio.Group(scale=2, x=i * 35 + 92, y=182)
             text_group.append(label.Label(terminalio.FONT, text=self.layout[1][i], color=0xFFFFFF))
             self.splash.append(text_group)
+            time.sleep(0.1)
 
         for i in range(8):
             self.splash.append(RoundRect(i * 35 + 105, 240, 25, 25, 3, outline=0xFFFFFF))
@@ -493,6 +505,7 @@ class Display():
             text_group = displayio.Group(scale=2, x=i * 35 + 111, y=252)
             text_group.append(label.Label(terminalio.FONT, text=self.layout[2][i], color=0xFFFFFF))
             self.splash.append(text_group)
+            time.sleep(0.1)
 
         self.splash.append(Rect( 188, 80, 25, 3, fill=0xFFFFFF))
         self.splash.append(Rect( 228, 80, 25, 3, fill=0xFFFFFF))
@@ -541,8 +554,49 @@ class Display():
             self.splash.append(self.highlight[self.xindex][self.yindex])
         if direction == 'A':
             pass
+
+    def useHome(self, direction):
+        if direction == 'U':
+            if(self.yindex > 0):
+                self.yindex = self.yindex - 1
+        if direction == 'D':
+            if(self.yindex < 2):
+                self.yindex = self.yindex + 1
+        if direction == 'A':
+            if(self.yindex == 0):
+                return 2
+            if(self.yindex == 1):
+                return 4
+            if(self.yindex == 2):
+                return 3
+            
+        p = self.ts.touch_point
+        if p:
+            x, y, pressure = p
+            if(x > 160  and x < 480 and y > 110 and y < 180):
+                self.homeOutline(1)
+                return 2
+    
+            if(x > 160  and x < 480 and y > 180 and y < 250):
+                self.homeOutline(2)
+                return 4
+                
+            if(x > 160  and x < 480 and y > 250 and y < 320):
+                self.homeOutline(3)
+                return 3
+        return None
+    
+    def useLeaderboard(self, direction):
+        if direction == 'A' or direction == 'B':
+            return 1
+            
         
 
+    def clearMem(self):
+        self.splash = None
+        gc.collect()
+        self.splash = displayio.Group()
+        self.display.root_group = self.splash
 
 
 

@@ -95,7 +95,7 @@ while True:
             game.getNextBlock()
 
         # when game is over, go to leaderboard
-        state = 3
+        state = 5
 
     if (state == 3):
         state = display.state3()
@@ -105,3 +105,4 @@ while True:
 
     if (state == 5):
         state = display.state5()
+        state = 3
