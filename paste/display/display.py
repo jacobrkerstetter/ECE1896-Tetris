@@ -128,9 +128,16 @@ class Display():
         trapezoid3 = Polygon(points, outline=color[2])
         points = [(x + 15, y + 15), (x, y + 15), (x + 2, y + 13), (x + 13, y + 13)]
         trapezoid4 = Polygon(points, outline=color[2])
+        
+        group = displayio.Group()
+        group.append(square)
+        group.append(trapezoid1)
+        group.append(trapezoid2)
+        group.append(trapezoid3)
+        group.append(trapezoid4)
 
         #Return Splash elements for further use
-        return [square, trapezoid1, trapezoid2, trapezoid3, trapezoid4]
+        return group
 
 #Create tetris sign using tetris block function
     def tetrisSign(self, x, y):
@@ -231,12 +238,11 @@ class Display():
         
         #Remove the previous next if there is a difference
         if(self.prevPiece != nextPiece):
+            if(self.prevPieceSplash != 0):
+                self.popOne(self.prevPieceSplash)
             self.prevPiece = nextPiece
-            if hasattr(self, 'prevPieceSplash') and self.prevPieceSplash in self.splash:
-                self.splash.remove(self.prevPieceSplash)
-            self.prevPieceSplash = displayio.Group()
-            self.splash.append(self.prevPieceSplash)
             #Display a default J block
+            self.prevPieceSplash = []
             if(isinstance(nextPiece,JBlock)):
                 self.prevPieceSplash.append(self.tetrisBlockParts(300, 80 ,self.light))
                 self.prevPieceSplash.append(self.tetrisBlockParts(300, 96 ,self.light))
@@ -278,6 +284,8 @@ class Display():
                 self.prevPieceSplash.append(self.tetrisBlockParts(316, 96 ,self.yellow))
                 self.prevPieceSplash.append(self.tetrisBlockParts(332, 80 ,self.yellow))
                 self.prevPieceSplash.append(self.tetrisBlockParts(332, 96 ,self.yellow))
+            for part in self.prevPieceSplash:
+                self.splash.append(part)
 
 
     #Function to take game array and draw and remove blocks as they fall or are cleared
@@ -401,7 +409,7 @@ class Display():
         self.currScore = text_group
         self.splash.append(text_group)
 
-        self.splash.append(Rect(299,80,66,48, fill=0x000000, outline=0xFFFFFF))
+        self.splash.append(Rect(299,79,66,50, fill=0x000000, outline=0xFFFFFF))
 
 
 
@@ -409,6 +417,7 @@ class Display():
 
     def state3(self):
         #Clear board
+        self.prevPieceSplash = 0
         while len(self.splash) > 0:
             self.splash.pop()
         self.background(0x091C3B)

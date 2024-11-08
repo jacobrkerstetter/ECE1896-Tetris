@@ -39,58 +39,58 @@ while True:
 
         # initialize game and controls
         game = Game(display)
-        userControls = UserInput()
+        # userControls = UserInput()
         while game.run:
             display.displayBoard(game.board.grid, game.nextPiece)
 
-            # update game
+        #     # update game
             game.updateFallingBlock()
 
-            # get user input
-            if buttons.events.get_into(currentEvent): # if an event is available in the queue
-                lastTime = currentEvent.timestamp
+        #     # get user input
+        #     if buttons.events.get_into(currentEvent): # if an event is available in the queue
+        #         lastTime = currentEvent.timestamp
 
-                if currentEvent == upButton: # up button is pressed
-                    print("Up")
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            print("Up")
-                            lastTime = supervisor.ticks_ms()
+        #         if currentEvent == upButton: # up button is pressed
+        #             print("Up")
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     print("Up")
+        #                     lastTime = supervisor.ticks_ms()
 
-                elif currentEvent == rightButton: # right button is pressed
-                    game.currPiece.move(0, 1)
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected              
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            game.currPiece.move(0, 1)
-                            lastTime = supervisor.ticks_ms()
+        #         elif currentEvent == rightButton: # right button is pressed
+        #             game.currPiece.move(0, 1)
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected              
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     game.currPiece.move(0, 1)
+        #                     lastTime = supervisor.ticks_ms()
 
-                elif currentEvent == downButton: # down button is pressed
-                    game.currPiece.move(1, 0)
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected               
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            game.currPiece.move(1, 0)
-                            lastTime = supervisor.ticks_ms()
+        #         elif currentEvent == downButton: # down button is pressed
+        #             game.currPiece.move(1, 0)
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected               
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     game.currPiece.move(1, 0)
+        #                     lastTime = supervisor.ticks_ms()
 
-                elif currentEvent == leftButton: # left button is pressed
-                    game.currPiece.move(0, -1)
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            game.currPiece.move(0, -1)
-                            lastTime = supervisor.ticks_ms()
+        #         elif currentEvent == leftButton: # left button is pressed
+        #             game.currPiece.move(0, -1)
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     game.currPiece.move(0, -1)
+        #                     lastTime = supervisor.ticks_ms()
 
-                elif currentEvent == rotateButton: # rotate button is pressed
-                    game.currPiece.rotate()
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected       
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            game.currPiece.rotate()
-                            lastTime = supervisor.ticks_ms()
+        #         elif currentEvent == rotateButton: # rotate button is pressed
+        #             game.currPiece.rotate()
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected       
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     game.currPiece.rotate()
+        #                     lastTime = supervisor.ticks_ms()
 
-                elif currentEvent == dropButton: # hard drop button is pressed
-                    game.currPiece.hardDrop()
-                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected  
-                        if supervisor.ticks_ms() - lastTime >= 250:
-                            game.currPiece.hardDrop()
-                            lastTime = supervisor.ticks_ms()
+        #         elif currentEvent == dropButton: # hard drop button is pressed
+        #             game.currPiece.hardDrop()
+        #             while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected  
+        #                 if supervisor.ticks_ms() - lastTime >= 250:
+        #                     game.currPiece.hardDrop()
+        #                     lastTime = supervisor.ticks_ms()
 
             game.getNextBlock()
 
