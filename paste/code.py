@@ -59,6 +59,7 @@ while True:
                             display.displayBoard(game.board.grid, game.nextPiece)
                             print("Up")
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
                 elif currentEvent == rightButton: # right button is pressed
                     game.currPiece.move(0, 1)
@@ -69,6 +70,7 @@ while True:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
                 elif currentEvent == downButton: # down button is pressed
                     game.currPiece.move(1, 0)
@@ -79,6 +81,7 @@ while True:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
                 elif currentEvent == leftButton: # left button is pressed
                     game.currPiece.move(0, -1)
@@ -89,6 +92,7 @@ while True:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
                 elif currentEvent == rotateButton: # rotate button is pressed
                     game.currPiece.rotate()
@@ -99,6 +103,7 @@ while True:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
                 elif currentEvent == dropButton: # hard drop button is pressed
                     game.currPiece.hardDrop()
@@ -109,6 +114,7 @@ while True:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
+                            game.getNextBlock()
 
             game.getNextBlock()
 
