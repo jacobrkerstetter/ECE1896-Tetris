@@ -350,18 +350,6 @@ class Display():
         #Loop to start searching for touch inputs for next state
         self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
         self.splash.append(self.highlight)
-    
-    def homeOutline(self, i):
-        self.splash.remove(self.highlight)
-        if(i == 1):
-            self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
-            self.splash.append(self.highlight)
-        elif(i == 2):
-            self.highlight = RoundRect(10, 190, 300, 50, 5, outline = 0xFFFF00)
-            self.splash.append(self.highlight)
-        else:
-            self.highlight = RoundRect(10, 260, 300, 50, 5, outline = 0xFFFF00)
-            self.splash.append(self.highlight)
 
     def state2(self):
         #Clear board
@@ -424,20 +412,6 @@ class Display():
         text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
         text_group.append(text_area)  # Subgroup for text scaling
         self.splash.append(text_group)
-
-        #Loop for touchscreen of back button
-        start = False
-        while (not start):
-            p = self.ts.touch_point
-            if p:
-                x, y, pressure = p
-                if(x > 20  and x < 120 and y > 240 and y < 310):
-                    nextState = 1
-                    start = True
-                print("x= ", x)
-                print("y= ", y)
-            
-        return nextState
     
 
     def state4(self):
@@ -529,14 +503,29 @@ class Display():
             self.splash.append(self.highlight[self.xindex][self.yindex])
         if direction == 'A':
             pass
+    
+    def homeOutline(self, i):
+        self.splash.remove(self.highlight)
+        if(i == 0):
+            self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
+        elif(i == 1):
+            self.highlight = RoundRect(10, 190, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
+        else:
+            self.highlight = RoundRect(10, 260, 300, 50, 5, outline = 0xFFFF00)
+            self.splash.append(self.highlight)
+
 
     def useHome(self, direction):
         if direction == 'U':
             if(self.yindex > 0):
                 self.yindex = self.yindex - 1
+                self.homeOutline(self.yindex)
         if direction == 'D':
             if(self.yindex < 2):
                 self.yindex = self.yindex + 1
+                self.homeOutline(self.yindex)
         if direction == 'A':
             if(self.yindex == 0):
                 return 2
@@ -564,6 +553,12 @@ class Display():
     def useLeaderboard(self, direction):
         if direction == 'A' or direction == 'B':
             return 1
+        p = self.ts.touch_point
+        if p:
+            x, y, pressure = p
+            if(x > 20  and x < 120 and y > 240 and y < 310):
+                return 1
+        return 3
             
         
 
