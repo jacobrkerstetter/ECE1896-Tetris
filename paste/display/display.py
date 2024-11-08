@@ -313,11 +313,11 @@ class Display():
     #Home screen state
     def state1(self):
         #Clear entire board
-        self.clearMem()
         self.old = [['0' for _ in range(10)] for _ in range(20)]
         self.prevPieceSplash = None
         while len(self.splash) > 0:
                 self.splash.pop()
+        self.clearMem()
 
         #Setup background and tetris sign
         self.background(0x091C3B)
@@ -355,13 +355,14 @@ class Display():
         #Clear board
         while len(self.splash) > 0:
                 self.splash.pop()
-        
+        self.clearMem()
+
         #Set background and gameboard
         self.background(0x091C3B)
         self.splash.append(Rect(100,0,160,320, fill=0x000000))
 
         text_group = displayio.Group(scale=2, x=300, y=20)
-        text_area = label.Label(terminalio.FONT, text="Score: " + str(0), color=0xFFFFFF)
+        text_area = label.Label(terminalio.FONT, text="Score: " + str(8888), color=0xFFFFFF)
         text_group.append(text_area)  # Subgroup for text scaling
         self.currScore = text_group
         self.splash.append(text_group)
@@ -369,7 +370,6 @@ class Display():
         text_group = displayio.Group(scale=2, x=300, y=50)
         text_area = label.Label(terminalio.FONT, text="Next Piece:", color=0xFFFFFF)
         text_group.append(text_area)  # Subgroup for text scaling
-        self.currScore = text_group
         self.splash.append(text_group)
 
         self.splash.append(Rect(299,79,66,50, fill=0x000000, outline=0xFFFFFF))
@@ -380,9 +380,9 @@ class Display():
 
     def state3(self):
         #Clear board
-        self.clearMem()
         while len(self.splash) > 0:
             self.splash.pop()
+        self.clearMem()
         self.background(0x091C3B)
         
         #Create leaderboard board
@@ -417,6 +417,7 @@ class Display():
     def state4(self):
         while len(self.splash) > 0:
             self.splash.pop()
+        self.clearMem()
         self.background(0xFFB22E)
         self.splash.append(Circle(100, 160, 20, outline=0xFF0000, fill=0xFF0000))
         self.splash.append(Circle(170, 160, 20, outline=0xFF0000, fill=0xFF0000))
@@ -431,6 +432,7 @@ class Display():
     def state5(self):
         while len(self.splash) > 0:
             self.splash.pop()
+        self.clearMem()
         self.background(0x091C3B)
         for i in range(10):
             self.splash.append(RoundRect(i * 35 + 70, 100, 25, 25, 3, outline=0xFFFFFF))
@@ -502,7 +504,7 @@ class Display():
                 self.yindex = self.yindex - 1
             self.splash.append(self.highlight[self.xindex][self.yindex])
         if direction == 'A':
-            pass
+            character = self.layout[self.xindex][self.yindex]
     
     def homeOutline(self, i):
         self.splash.remove(self.highlight)
