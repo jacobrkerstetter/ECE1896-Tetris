@@ -31,7 +31,26 @@ display = Display()
 while True:
     # Intro Screen State
     if (state == 1):
-        state = display.state1()
+        display.state1()
+
+        input = ' ' 
+        if currentEvent == upButton: # up button is pressed
+            input = 'U'
+            while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
+                if supervisor.ticks_ms() - lastTime >= 250:
+                    lastTime = supervisor.ticks_ms()
+        if currentEvent == downButton: # up button is pressed
+            input = 'D'
+            while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
+                if supervisor.ticks_ms() - lastTime >= 250:
+                    lastTime = supervisor.ticks_ms()
+        if currentEvent == dropButton: # up button is pressed
+            input = 'A'
+            while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected             
+                if supervisor.ticks_ms() - lastTime >= 250:
+                    lastTime = supervisor.ticks_ms()
+
+        state = display.useHome(input)
 
     # Gameplay State
     if (state == 2):

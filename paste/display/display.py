@@ -350,31 +350,6 @@ class Display():
         #Loop to start searching for touch inputs for next state
         self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
         self.splash.append(self.highlight)
-
-        start = False
-        while (not start):
-                p = self.ts.touch_point
-                if p:
-                    x, y, pressure = p
-                    if(x > 160  and x < 480 and y > 110 and y < 180):
-                        nextState = 2
-                        self.homeOutline(1)
-                        start = True
-                        
-                    if(x > 160  and x < 480 and y > 180 and y < 250):
-                        nextState = 4
-                        self.homeOutline(2)
-                        start = True
-                        
-                    if(x > 160  and x < 480 and y > 250 and y < 320):
-                        nextState = 3
-                        self.homeOutline(3)
-                        start = True
-                        
-                    print("x= ", x)
-                    print("y= ", y)
-
-        return nextState
     
     def homeOutline(self, i):
         self.splash.remove(self.highlight)
@@ -584,7 +559,7 @@ class Display():
             if(x > 160  and x < 480 and y > 250 and y < 320):
                 self.homeOutline(3)
                 return 3
-        return None
+        return 1
     
     def useLeaderboard(self, direction):
         if direction == 'A' or direction == 'B':
