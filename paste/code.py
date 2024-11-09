@@ -141,6 +141,7 @@ while True:
             game.getNextBlock()
 
         # when game is over, go to leaderboard
+        display.gameOver()
         state = 5
 
     if (state == 3):

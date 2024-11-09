@@ -65,6 +65,7 @@ class Display():
 
         #Hold for current game score splash
         self.currScore = 0
+        self.heldScore = 0
 
         #Hold for current highlight
         self.highlight = 0
@@ -224,6 +225,7 @@ class Display():
 
     #Function that recives score and updates the current score
     def scoreUpdate(self, score):
+        self.heldScore = score
         #Remove previous score
         self.splash.remove(self.currScore)
         #Create score counter
@@ -367,7 +369,7 @@ class Display():
         self.splash.append(Rect(100,0,160,320, fill=0x000000))
 
         text_group = displayio.Group(scale=2, x=300, y=20)
-        text_area = label.Label(terminalio.FONT, text="Score: " + str(8888), color=0xFFFFFF)
+        text_area = label.Label(terminalio.FONT, text="Score: " + str(0), color=0xFFFFFF)
         text_group.append(text_area)  # Subgroup for text scaling
         self.currScore = text_group
         self.splash.append(text_group)
@@ -379,9 +381,25 @@ class Display():
 
         self.splash.append(Rect(299,79,66,50, fill=0x000000, outline=0xFFFFFF))
 
+    def gameOver(self):
+        while len(self.splash) > 0:
+                self.splash.pop()
+        self.clearMem()
 
+        self.background(0x091C3B)
 
-    
+        text_group = displayio.Group(scale=4, x=100, y=50)
+        text_area = label.Label(terminalio.FONT, text="GAME OVER!", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+
+        text_group = displayio.Group(scale=3, x=100, y=200)
+        text = "Final Score: " + str(self.heldScore)
+        text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+        time.sleep(2)
+
 
     def state3(self):
         #Clear board
