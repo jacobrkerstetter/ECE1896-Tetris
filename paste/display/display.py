@@ -76,8 +76,10 @@ class Display():
         #Holds for highlight index
         self.xindex = 0
         self.yindex = 0
+        self.count = 0
         #Hold for keyboard layout
-        self.layout = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ']]
+        self.layout = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '-']]
+        self.character = []
 
     #Function to color entire background
     def background(self, color):
@@ -351,6 +353,9 @@ class Display():
         self.highlight = RoundRect(10, 120, 300, 50, 5, outline = 0xFFFF00)
         self.splash.append(self.highlight)
 
+        self.xindex = 0
+        self.yindex = 0
+
     def state2(self):
         #Clear board
         while len(self.splash) > 0:
@@ -398,7 +403,7 @@ class Display():
         for i in range (10):
             text_group = displayio.Group(scale=1, x=160, y=120 + i * 15)
             score = 0
-            tag = "Zac"
+            tag = str(self.character[0] + self.character[1] + self.character[2])
             text = "#" + str(i+1) + " " + str(score) + " " + tag
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling
@@ -472,11 +477,12 @@ class Display():
         self.splash.append(self.highlight[0][0])
         self.xindex = 0
         self.yindex = 0
-        time.sleep(5)
-        return 1
+        self.count = 0
+        self.character = []
+        print('Done')
     
     def useKeyboard(self, direction):
-        self.splash.remove(self.highlight[self.xindex][self.yindex])
+        self.splash.remove(self.highlight[self.yindex][self.xindex])
         if direction == 'D':
             if self.yindex != 2:
                 if self.yindex == 0:
@@ -502,9 +508,20 @@ class Display():
         if direction == 'U':
             if self.yindex != 0:
                 self.yindex = self.yindex - 1
-            self.splash.append(self.highlight[self.xindex][self.yindex])
+        self.splash.append(self.highlight[self.yindex][self.xindex])
         if direction == 'A':
-            character = self.layout[self.xindex][self.yindex]
+            self.character.append(self.layout[self.yindex][self.xindex])
+            text_group = displayio.Group(scale=2, x=self.count*40 + 193, y= 70)
+            text_group.append(label.Label(terminalio.FONT, text=self.character[self.count], color=0xFFFFFF))
+            self.splash.append(text_group)
+            self.count = self.count + 1
+
+        if self.count == 3:
+            time.sleep(1)
+            return 3
+        else:
+            return 5
+            
     
     def homeOutline(self, i):
         self.splash.remove(self.highlight)
