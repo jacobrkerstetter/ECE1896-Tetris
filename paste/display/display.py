@@ -316,12 +316,16 @@ class Display():
 
     #Home screen state
     def state1(self):
+        self.__init__
+        print(f"Free memory: {gc.mem_free()} bytes")
         #Clear entire board
         self.old = [['0' for _ in range(10)] for _ in range(20)]
         self.prevPieceSplash = None
+        print(f"Free memory: {gc.mem_free()} bytes")
         while len(self.splash) > 0:
                 self.splash.pop()
         self.clearMem()
+        print(f"Free memory: {gc.mem_free()} bytes")
 
         #Setup background and tetris sign
         self.background(0x091C3B)
@@ -359,6 +363,7 @@ class Display():
         self.yindex = 0
 
     def state2(self):
+        print(f"Free memory: {gc.mem_free()} bytes")
         #Clear board
         while len(self.splash) > 0:
                 self.splash.pop()
@@ -402,6 +407,7 @@ class Display():
 
 
     def state3(self):
+        print(f"Free memory: {gc.mem_free()} bytes")
         #Clear board
         while len(self.splash) > 0:
             self.splash.pop()
@@ -438,6 +444,7 @@ class Display():
     
 
     def state4(self):
+        print(f"Free memory: {gc.mem_free()} bytes")
         while len(self.splash) > 0:
             self.splash.pop()
         self.clearMem()
@@ -453,6 +460,7 @@ class Display():
         return 1
     
     def state5(self):
+        print(f"Free memory: {gc.mem_free()} bytes")
         while len(self.splash) > 0:
             self.splash.pop()
         self.clearMem()
@@ -497,7 +505,6 @@ class Display():
         self.yindex = 0
         self.count = 0
         self.character = []
-        print('Done')
     
     def useKeyboard(self, direction):
         self.splash.remove(self.highlight[self.yindex][self.xindex])

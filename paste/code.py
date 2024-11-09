@@ -74,12 +74,10 @@ while True:
                 lastTime = currentEvent.timestamp
 
                 if currentEvent == upButton: # up button is pressed
-                    print("Up")
                     while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
                         if supervisor.ticks_ms() - lastTime >= 250:
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
-                            print("Up")
                             lastTime = supervisor.ticks_ms()
                             game.getNextBlock()
 
@@ -204,4 +202,3 @@ while True:
                         if supervisor.ticks_ms() - lastTime >= 250:
                             lastTime = supervisor.ticks_ms()
                 state = display.useKeyboard(input)
-                print(input)
