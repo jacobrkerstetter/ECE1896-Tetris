@@ -64,23 +64,23 @@ class Display():
         self.prev = [[0 for _ in range(10)] for _ in range(20)]
 
         #Hold for current game score splash
-        self.currScore = 0
-        self.heldScore = 0
+        self.currScore = None
+        self.heldScore = None
 
         #Hold for current highlight
-        self.highlight = 0
+        self.highlight = None
 
         #Holds for previous piece and previous piece splash
-        self.prevPiece = 0
+        self.prevPiece = None
         self.prevPieceSplash = None
 
         #Holds for highlight index
-        self.xindex = 0
-        self.yindex = 0
-        self.count = 0
+        self.xindex = None
+        self.yindex = None
+        self.count = None
         #Hold for keyboard layout
         self.layout = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '-']]
-        self.character = []
+        self.character = ['Z','A','C']
 
     #Function to color entire background
     def background(self, color):
@@ -313,6 +313,7 @@ class Display():
                     if mat[j][i] == "0":
                         self.popOne(self.prev[j][i])
                     self.old[j][i] = mat[j][i]
+        gc.collect()
 
     #Home screen state
     def state1(self):
@@ -386,7 +387,12 @@ class Display():
 
         self.splash.append(Rect(299,79,66,50, fill=0x000000, outline=0xFFFFFF))
 
+        self.prev = [[0 for _ in range(10)] for _ in range(20)]
+
     def gameOver(self):
+        self.prevPiece = None
+        self.prevPieceSplash = None
+        self.prev = None
         while len(self.splash) > 0:
                 self.splash.pop()
         self.clearMem()
@@ -407,6 +413,7 @@ class Display():
 
 
     def state3(self):
+        self.highlight = None
         print(f"Free memory: {gc.mem_free()} bytes")
         #Clear board
         while len(self.splash) > 0:
@@ -426,9 +433,8 @@ class Display():
         #Display list of top 10 scores
         for i in range (10):
             text_group = displayio.Group(scale=1, x=160, y=120 + i * 15)
-            score = 0
             tag = str(self.character[0] + self.character[1] + self.character[2])
-            text = "#" + str(i+1) + " " + str(score) + " " + tag
+            text = "#" + str(i+1) + " " + str(self.heldScore) + " " + tag
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling
             self.splash.append(text_group)
@@ -448,7 +454,7 @@ class Display():
         while len(self.splash) > 0:
             self.splash.pop()
         self.clearMem()
-        self.background(0xFFB22E)
+        self.background(0x091C3B)
         self.splash.append(Circle(100, 160, 20, outline=0xFF0000, fill=0xFF0000))
         self.splash.append(Circle(170, 160, 20, outline=0xFF0000, fill=0xFF0000))
         self.splash.append(Circle(135, 125, 20, outline=0xFF0000, fill=0xFF0000))

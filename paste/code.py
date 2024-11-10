@@ -10,7 +10,7 @@ import supervisor
 
 from display.display import *
 from algorithm.game import *
-from controller.userInput import *
+#from controller.userInput import *
 
 # instatiate inputs
 # create a keys object for all controller button pins
