@@ -166,7 +166,24 @@ while True:
                 state = display.useLeaderboard(' ')
 
     if (state == 4):
-        state = display.state4()
+        display.state4()
+        while(state == 4):
+            if buttons.events.get_into(currentEvent): # if an event is available in the queue
+                lastTime = currentEvent.timestamp
+                input = ' '
+                if currentEvent == rotateButton: # up button is pressed
+                    input = 'B'
+                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
+                        if supervisor.ticks_ms() - lastTime >= 250:
+                            lastTime = supervisor.ticks_ms()
+                if currentEvent == dropButton: # up button is pressed
+                    input = 'A'
+                    while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
+                        if supervisor.ticks_ms() - lastTime >= 250:
+                            lastTime = supervisor.ticks_ms()
+                state = display.useHelp(input)
+            else:
+                state = display.useHelp(' ')
 
     if (state == 5):
         display.state5()

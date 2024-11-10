@@ -503,7 +503,6 @@ class Display():
         self.splash.append(Line(170, 180, 170, 250, color=0xFFFFFF))
         self.splash.append(Line(135, 215, 135, 250, color=0xFFFFFF))
         self.splash.append(Line(100, 250, 170, 250, color=0xFFFFFF))
-        
         text_group = displayio.Group(scale=1, x=60, y=260)
         text_area = label.Label(terminalio.FONT, text="Controls block movement:", color=0xFFFFFF)
         text_group.append(text_area)
@@ -513,10 +512,31 @@ class Display():
         text_group.append(text_area)
         self.splash.append(text_group)
 
+        self.splash.append(Line(135, 105, 135, 70, color=0xFFFFFF))
+        text_group = displayio.Group(scale=1, x=60, y=60)
+        text_area = label.Label(terminalio.FONT, text="Rotates Block 90 degrees", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
         
-        
-        time.sleep(5)
-        return 1
+        self.splash.append(Line(345, 123, 345, 70, color=0xFFFFFF))
+        text_group = displayio.Group(scale=1, x=285, y=60)
+        text_area = label.Label(terminalio.FONT, text="Rotates Block 90 degrees", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+
+        self.splash.append(Line(310, 197, 310, 220, color=0xFFFFFF))
+        text_group = displayio.Group(scale=1, x=260, y=230)
+        text_area = label.Label(terminalio.FONT, text="Drops block to lowest point below", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+
+        #Create Back button
+        self.splash.append(RoundRect(370, 250, 80, 50, 5, outline=0xFFFFFF))
+        text_group = displayio.Group(scale=2, x=380, y=275)
+        text = "Back"
+        text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
+        text_group.append(text_area)  # Subgroup for text scaling
+        self.splash.append(text_group)
     
     def state5(self):
         print(f"Free memory: {gc.mem_free()} bytes")
@@ -662,6 +682,16 @@ class Display():
             if(x > 20  and x < 120 and y > 240 and y < 310):
                 return 1
         return 3
+
+    def useHelp(self, direction):
+        if direction == 'A' or direction == 'B':
+            return 1
+        p = self.ts.touch_point
+        if p:
+            x, y, pressure = p
+            if(x > 20  and x < 120 and y > 240 and y < 310):
+                return 1
+        return 4
             
         
 
