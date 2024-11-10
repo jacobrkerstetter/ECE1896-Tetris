@@ -9,6 +9,7 @@ from adafruit_hx8357 import HX8357
 from adafruit_display_shapes.roundrect import RoundRect
 from adafruit_display_shapes.rect import Rect
 from adafruit_display_shapes.circle import Circle
+from adafruit_display_shapes.line import Line
 import gc
 from algorithm.game import *
 
@@ -47,7 +48,7 @@ class Display():
         # Release any resources currently in use for the displays
         displayio.release_displays()
         #Setup touchreen pins
-        self.ts = adafruit_touchscreen.Touchscreen(board.A13, board.A11, board.D26, board.A10, calibration=((14810, 51555), (17403, 51095)), size=(480, 320))
+        self.ts = adafruit_touchscreen.Touchscreen(board.A13, board.A11, board.D26, board.A10, calibration=((10500, 53000), (16000, 44800)), size=(480, 320))
 
         #Connect teensy SPI for display communcation
         spi = board.SPI()
@@ -454,14 +455,66 @@ class Display():
         while len(self.splash) > 0:
             self.splash.pop()
         self.clearMem()
-        self.background(0x091C3B)
-        self.splash.append(Circle(100, 160, 20, outline=0xFF0000, fill=0xFF0000))
-        self.splash.append(Circle(170, 160, 20, outline=0xFF0000, fill=0xFF0000))
-        self.splash.append(Circle(135, 125, 20, outline=0xFF0000, fill=0xFF0000))
-        self.splash.append(Circle(135, 195, 20, outline=0xFF0000, fill=0xFF0000))
 
-        self.splash.append(Circle(310, 160, 20, outline=0xFF0000, fill=0xFF0000))
-        self.splash.append(Circle(345, 125, 20, outline=0xFF0000, fill=0xFF0000))
+        self.background(0x091C3B)
+
+        #Left
+        self.splash.append(Circle(100, 160, 20, outline=0x000000, fill=0xFF0000))
+        triangle_points = [(100 + 5, 160 + 15), (100 + 5, 160 - 15), (100 - 10, 160)]
+        triangle = Polygon(points=triangle_points, outline=0x000000)
+        self.splash.append(triangle)
+        time.sleep(0.1)
+        #Right
+        self.splash.append(Circle(170, 160, 20, outline=0x000000, fill=0xFF0000))
+        triangle_points = [(170 - 5, 160 - 15), (170 - 5, 160 + 15), (170 + 10, 160)]
+        triangle = Polygon(points=triangle_points, outline=0x000000)
+        self.splash.append(triangle)
+        time.sleep(0.1)
+        #Up
+        self.splash.append(Circle(135, 125, 20, outline=0x000000, fill=0xFF0000))
+        triangle_points = [(135 - 15, 125 + 5), (135 + 15, 125 + 5), (135, 125 - 10)]
+        triangle = Polygon(points=triangle_points, outline=0x000000)
+        self.splash.append(triangle)
+        time.sleep(0.1)
+        #Down
+        self.splash.append(Circle(135, 195, 20, outline=0x000000, fill=0xFF0000))
+        triangle_points = [(135 + 15, 195 - 5), (135 - 15, 195 - 5), (135, 195 + 10)]
+        triangle = Polygon(points=triangle_points, outline=0x000000)
+        self.splash.append(triangle)
+        time.sleep(0.1)
+
+        #A
+        self.splash.append(Circle(310, 177, 20, outline=0x000000, fill=0xFF0000))
+        text_group = displayio.Group(scale=3, x=305, y=177)
+        text_area = label.Label(terminalio.FONT, text='A', color=0x000000)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+        time.sleep(0.1)
+        
+        #B
+        self.splash.append(Circle(345, 143, 20, outline=0x000000, fill=0xFF0000))
+        text_group = displayio.Group(scale=3, x=340, y=143)
+        text_area = label.Label(terminalio.FONT, text='B', color=0x000000)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+        time.sleep(0.1)
+
+        self.splash.append(Line(100, 180, 100, 250, color=0xFFFFFF))
+        self.splash.append(Line(170, 180, 170, 250, color=0xFFFFFF))
+        self.splash.append(Line(135, 215, 135, 250, color=0xFFFFFF))
+        self.splash.append(Line(100, 250, 170, 250, color=0xFFFFFF))
+        
+        text_group = displayio.Group(scale=1, x=60, y=260)
+        text_area = label.Label(terminalio.FONT, text="Controls block movement:", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+        text_group = displayio.Group(scale=1, x=65, y=280)
+        text_area = label.Label(terminalio.FONT, text="left, right, and down", color=0xFFFFFF)
+        text_group.append(text_area)
+        self.splash.append(text_group)
+
+        
+        
         time.sleep(5)
         return 1
     

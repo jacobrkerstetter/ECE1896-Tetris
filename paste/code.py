@@ -74,8 +74,11 @@ while True:
                 lastTime = currentEvent.timestamp
 
                 if currentEvent == upButton: # up button is pressed
+                    game.currPiece.rotate()
+                    display.displayBoard(game.board.grid, game.nextPiece)
                     while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
                         if supervisor.ticks_ms() - lastTime >= 250:
+                            game.currPiece.rotate()
                             game.updateFallingBlock()
                             display.displayBoard(game.board.grid, game.nextPiece)
                             lastTime = supervisor.ticks_ms()
