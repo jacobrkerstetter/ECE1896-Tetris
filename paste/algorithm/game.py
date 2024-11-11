@@ -8,7 +8,9 @@ from algorithm.block import *
 from display.display import *
 
 class Game:
-    def __init__(self):
+    def __init__(self, display):
+        self.display = display
+
         # initialize score to 0 and level to 1
         self.score = 0
         self.linesCleared = 0
@@ -46,7 +48,7 @@ class Game:
 
     # function to make block fall automatically
     def updateFallingBlock(self):
-        print(time.time() - self.startTime)
+        #print(time.time() - self.startTime)
         if (time.time() - self.startTime) >= self.fallSpeed:
             self.startTime = time.time()
 
@@ -57,8 +59,6 @@ class Game:
     def getNextBlock(self):
         # if piece cannot move down any further, start with new piece
         if self.changePiece:
-            newPiece()
-
             # clear rows that are full, track level and score
             numCleared = self.board.clearRows()
             prevCleared = self.linesCleared
@@ -69,6 +69,7 @@ class Game:
                 self.levelThreshold += 10
 
             self.score += self.updateScore(numCleared)
+            self.display.scoreUpdate(self.score)
 
             # if nextPiece is overlapping a current piece, game over
             if not self.nextPiece.isValidSpace():
@@ -97,3 +98,15 @@ class Game:
         
     def resetGame(self):
         self.__init__()
+
+class RiggedGame(Game):
+    def __init__(self, display):
+        super().__init__(display)
+
+        for i in range(9):
+            self.board.grid[16][i] = 'l'
+            self.board.grid[17][i] = 'l'
+            self.board.grid[18][i] = 'l'
+            self.board.grid[19][i] = 'l'
+
+        self.nextPiece = IBlock(self.board)

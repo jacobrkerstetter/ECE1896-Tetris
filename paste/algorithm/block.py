@@ -66,6 +66,10 @@ class Block:
 
         # clear all spaces previously filled
         self.draw()
+
+    def hardDrop(self):
+        while self.move(1,0):
+            pass
     
 # child classes for each piece
 class JBlock(Block):

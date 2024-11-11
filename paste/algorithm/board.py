@@ -9,8 +9,9 @@ class Board:
     def printBoard(self):
         for row in range(self.numRows):
             for col in range(self.numCols):
-                print(self.grid[row][col], end=' ')
-            print('\r')
+                pass
+                #print(self.grid[row][col], end=' ')
+            #print('\r')
 
     def isCellEmpty(self, row, col):
         return self.grid[row][col] == '0'

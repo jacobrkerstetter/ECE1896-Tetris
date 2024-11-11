@@ -353,7 +353,25 @@ class TestBoardMethods(unittest.TestCase):
         self.assertEqual(board.grid[17][4], 'l')
         self.assertEqual(board.grid[17][5], 'l')
         self.assertEqual(board.grid[17][6], 'l')
+    
+    def testHardDropClear2(self):
+        # add J Block to board
+        board = Board()
+        # # create test board for double line clears
+        for i in range(9):
+            board.draw(18, i, 'l')
+            board.draw(19, i, 'l')
 
+        testBlock = IBlock(board)
+        testBlock.rotate()
+        testBlock.move(0,3)
+        testBlock.hardDrop()
+
+        board.clearRows()
+
+        for i in range(9):
+            self.assertEqual(board.grid[18][i], '0')
+            self.assertEqual(board.grid[19][i], '0')
 
 if __name__ == '__main__':
     unittest.main()
