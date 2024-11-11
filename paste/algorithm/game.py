@@ -98,3 +98,15 @@ class Game:
         
     def resetGame(self):
         self.__init__()
+
+class RiggedGame(Game):
+    def __init__(self, display):
+        super().__init__(display)
+
+        for i in range(9):
+            self.board.grid[16][i] = 'l'
+            self.board.grid[17][i] = 'l'
+            self.board.grid[18][i] = 'l'
+            self.board.grid[19][i] = 'l'
+
+        self.nextPiece = IBlock(self.board)
