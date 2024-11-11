@@ -224,3 +224,5 @@ while True:
                         if supervisor.ticks_ms() - lastTime >= 250:
                             lastTime = supervisor.ticks_ms()
                 state = display.useKeyboard(input)
+        [hold1, hold2] = display.getPlayer()
+        memory.updateScores(hold1,hold2)

@@ -413,6 +413,7 @@ class Display():
         time.sleep(2)
 
 
+
     def state3(self, scores):
         self.highlight = None
         print(f"Free memory: {gc.mem_free()} bytes")
@@ -699,6 +700,9 @@ class Display():
         gc.collect()
         self.splash = displayio.Group()
         self.display.root_group = self.splash
+
+    def getPlayer(self):
+        return [self.heldScore, str(self.character[0] + self.character[1] + self.character[2])]
 
 
 
