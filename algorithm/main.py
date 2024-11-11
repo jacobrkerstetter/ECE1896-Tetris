@@ -1,5 +1,5 @@
 import curses
-from game import Game
+from game import RiggedGame
 from color import Color
 
 def main():
@@ -55,7 +55,7 @@ def main():
     #     for j in range(9):
     #         board.draw(i, j, 'l')
 
-    game = Game()
+    game = RiggedGame()
 
     while game.run:
         # reset game board each loop
