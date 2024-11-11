@@ -27,9 +27,12 @@ class Memory:
         with open("/sd/TetrisScores.txt", "r+") as self.file:
 
             self.scoreList = self.file.readlines() # scoreList is a python list() object # lines is a python list() object
+            print(self.scoreList)
 
             for i in range(10):
                 self.scoreList[i] = self.scoreList[i].strip()
+
+            print(self.scoreList)
 
 
     # ********************* FOR LEADERBOARD DISPLAY *********************
@@ -56,4 +59,5 @@ class Memory:
         self.file.seek(0)
         
         for i in range(10):
+            print(self.scoreList[i])
             self.file.write(self.scoreList[i])
