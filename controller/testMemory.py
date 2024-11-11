@@ -53,16 +53,14 @@ with open("/sd/TetrisScores.txt", "r+") as file:
     file.seek(0) # Go back to the beginning of the file
     scoreList = file.readlines() # scoreList is a python list() object
     
-    newName = "newPlayer"
     newScore = 75
+    newName = "newPlayer"
+
+    for i in range(10):
+        for char in scoreList[i]:
+            
 
 
-    scoreList[1] = "Cassandra 100\n"
-    scoreList[2] = "Oscar 50\n"
-
-    #for item in scoreList:
-    #    for 
-    
     file.seek(0)
     for item in scoreList:
         file.write(item)
