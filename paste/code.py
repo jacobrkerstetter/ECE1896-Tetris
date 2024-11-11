@@ -8,7 +8,9 @@ import keypad
 import time
 import supervisor
 
+from algorithm.game import RiggedGame
 from display.display import *
+from algorithm.game import *
 from algorithm.game import *
 from controller.memory import *
 #from controller.userInput import *

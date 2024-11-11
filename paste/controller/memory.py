@@ -27,17 +27,16 @@ class Memory:
         with open("/sd/TetrisScores.txt", "r+") as self.file:
 
             self.scoreList = self.file.readlines() # scoreList is a python list() object # lines is a python list() object
-            print(self.scoreList)
 
+            self.scoreUseList = [0,0,0,0,0,0,0,0,0,0]
             for i in range(10):
-                self.scoreList[i] = self.scoreList[i].strip()
+                self.scoreUseList[i] = self.scoreList[i].strip()
 
-            print(self.scoreList)
 
 
     # ********************* FOR LEADERBOARD DISPLAY *********************
     def returnScores(self):
-        return self.scoreList
+        return self.scoreUseList
     
 
     def updateScores(self, newScore, tag):
@@ -45,7 +44,7 @@ class Memory:
         nums = []
 
         for i in range(10):
-            nums.append(int(self.scoreList[i][0:8]))
+            nums.append(int(self.scoreUseList[i][0:8]))
 
         place = 10
         for i in range(9, -1, -1):
@@ -54,10 +53,13 @@ class Memory:
 
         newScoreSTR = f"{newScore:08}" # converts the score to a string and pads it with zeros until it is 8 chars long
 
+        print(self.scoreList)
         self.scoreList.insert(place, newScoreSTR + " " + tag + "\n")
+        self.scoreUseList.insert(place, newScoreSTR + " " + tag)
+        print(self.scoreList)
 
         self.file.seek(0)
-        
+        print(self.scoreList)
         for i in range(10):
             print(self.scoreList[i])
-            self.file.write(self.scoreList[i])
+            #self.file.write(self.scoreList[i])
