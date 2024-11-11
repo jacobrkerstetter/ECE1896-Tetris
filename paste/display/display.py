@@ -413,7 +413,7 @@ class Display():
         time.sleep(2)
 
 
-    def state3(self):
+    def state3(self, scores):
         self.highlight = None
         print(f"Free memory: {gc.mem_free()} bytes")
         #Clear board
@@ -434,8 +434,7 @@ class Display():
         #Display list of top 10 scores
         for i in range (10):
             text_group = displayio.Group(scale=1, x=160, y=120 + i * 15)
-            tag = str(self.character[0] + self.character[1] + self.character[2])
-            text = "#" + str(i+1) + " " + str(self.heldScore) + " " + tag
+            text = "#" + str(i+1) + scores[i]
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling
             self.splash.append(text_group)

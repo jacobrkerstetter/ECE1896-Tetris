@@ -10,6 +10,7 @@ import supervisor
 
 from display.display import *
 from algorithm.game import *
+from controller.memory import *
 #from controller.userInput import *
 
 # instatiate inputs
@@ -27,6 +28,7 @@ dropButton = keypad.Event(5, True)  # Button D7 pressed
 
 state = 1
 display = Display()
+memory = Memory()
 
 while True:
     # Intro Screen State
@@ -146,7 +148,7 @@ while True:
         state = 5
 
     if (state == 3):
-        display.state3()
+        display.state3(memory.returnScores())
         while(state == 3):
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
