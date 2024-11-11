@@ -24,19 +24,19 @@ class Memory:
         storage.mount(vfs, "/sd")
   
         # open and read the .txt file containing the top scores
-        with open("/sd/TetrisScores.txt", "r+") as self.file:
+        with open("/sd/TetrisScores.txt", "r+") as file:
 
-            self.scoreList = self.file.readlines() # scoreList is a python list() object # lines is a python list() object
+            self.scoreList = file.readlines() # scoreList is a python list() object # lines is a python list() object
 
             for i in range(10):
                 self.scoreList[i] = self.scoreList[i].strip()
 
 
-    # ********************* FOR LEADERBOARD DISPLAY *********************
+    # function to return all scores 
     def returnScores(self):
         return self.scoreList
     
-
+    # function to update scores, if needed
     def updateScores(self, newScore, tag):
 
         nums = []

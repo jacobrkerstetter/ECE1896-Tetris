@@ -48,19 +48,34 @@ with open("/sd/TetrisScores.txt", "r+") as file:
     
 
     # ********************* UPDATE SCORES *********************
-    # ------------> INPUT NEW NAME AND SCORE HERE
     
     file.seek(0) # Go back to the beginning of the file
     scoreList = file.readlines() # scoreList is a python list() object
     
     newScore = 75
-    newName = "newPlayer"
+    newName = "new"
+
+    nums = []
 
     for i in range(10):
-        for char in scoreList[i]:
-            
+        nums.append(int(scoreList[i][0:8]))
+
+    place = 10
+    for i in range(9, -1, -1):
+        if newScore > nums[i]:
+            place = i
+
+    newScoreSTR = f"{newScore:08}" # converts the score to a string and pads it with zeros until it is 8 chars long
+
+    scoreList.insert(place, newScoreSTR + " " + newName + "\n")
+
+    file.seek(0)
+    
+    for i in range(10):
+        file.write(scoreList[i])
 
 
+    '''
     file.seek(0)
     for item in scoreList:
         file.write(item)
@@ -68,7 +83,7 @@ with open("/sd/TetrisScores.txt", "r+") as file:
     file.seek(0)
     contents = file.read() # lines is a python list() object
     print(contents)
-    
+    '''
 
 
 

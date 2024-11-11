@@ -58,8 +58,9 @@ class Memory:
         self.scoreUseList.insert(place, newScoreSTR + " " + tag)
         print(self.scoreList)
 
-        self.file.seek(0)
-        print(self.scoreList)
-        for i in range(10):
-            print(self.scoreList[i])
-            #self.file.write(self.scoreList[i])
+        with open("/sd/TetrisScores.txt", "r+") as self.file:
+            self.file.seek(0)
+            print(self.scoreList)
+            for i in range(10):
+                print(self.scoreList[i])
+                self.file.write(self.scoreList[i])
