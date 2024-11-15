@@ -103,10 +103,36 @@ class RiggedGame(Game):
     def __init__(self, display):
         super().__init__(display)
 
-        for i in range(9):
-            self.board.grid[16][i] = 'l'
-            self.board.grid[17][i] = 'l'
-            self.board.grid[18][i] = 'l'
-            self.board.grid[19][i] = 'l'
+        for j in range(11, 20):
+            for i in range(9):
+                self.board.grid[j][i] = 'l'
 
         self.nextPiece = IBlock(self.board)
+
+    # function to decide whether to change piece
+    def getNextBlock(self):
+        # if piece cannot move down any further, start with new piece
+        if self.changePiece:
+            # clear rows that are full, track level and score
+            numCleared = self.board.clearRows()
+            prevCleared = self.linesCleared
+            self.linesCleared += numCleared
+            if self.linesCleared >= self.levelThreshold and prevCleared < self.levelThreshold:
+                self.level += 1
+                self.fallSpeed -= 0.1
+                self.levelThreshold += 10
+
+            self.score += self.updateScore(numCleared)
+            self.display.scoreUpdate(self.score)
+
+            # if nextPiece is overlapping a current piece, game over
+            if not self.nextPiece.isValidSpace():
+                self.run = False
+
+            # make current piece the next piece in line and draw it
+            self.currPiece = self.nextPiece
+            self.currPiece.draw()
+
+            # randomly choice a next piece
+            self.nextPiece = IBlock(self.board)
+            self.changePiece = False
