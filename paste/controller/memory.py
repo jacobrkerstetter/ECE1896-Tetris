@@ -66,4 +66,4 @@ class Memory:
                 self.file.write(self.scoreList[i])
 
     def newTopTen(self, score):
-        return score < int(self.scoreUseList[9][0:8])
+        return score > int(self.scoreUseList[9][0:8])
