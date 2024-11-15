@@ -411,6 +411,7 @@ class Display():
         text_group.append(text_area)
         self.splash.append(text_group)
         time.sleep(2)
+        return self.heldScore
 
 
 
@@ -434,7 +435,7 @@ class Display():
         
         #Display list of top 10 scores
         for i in range (10):
-            text_group = displayio.Group(scale=1, x=160, y=120 + i * 15)
+            text_group = displayio.Group(scale=2, x=160, y=100 + i * 15)
             text = "#" + str(i+1) + " " + scores[i]
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling

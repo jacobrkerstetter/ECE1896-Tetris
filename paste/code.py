@@ -146,8 +146,11 @@ while True:
             game.getNextBlock()
 
         # when game is over, go to leaderboard
-        display.gameOver()
-        state = 5
+        score = display.gameOver()
+        if memory.newTopTen(score):
+            state = 5
+        else:
+            state = 3
 
     if (state == 3):
         display.state3(memory.returnScores())

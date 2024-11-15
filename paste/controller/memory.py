@@ -64,3 +64,6 @@ class Memory:
             for i in range(10):
                 print(self.scoreList[i])
                 self.file.write(self.scoreList[i])
+
+    def newTopTen(self, score):
+        return score < int(self.scoreUseList[9][0:8])
