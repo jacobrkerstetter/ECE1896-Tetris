@@ -80,8 +80,8 @@ while True:
                 if currentEvent == upButton: # up button is pressed
                     game.currPiece.rotate()
                     timeRotated = time.time()
-                    print('Rotate Latency: {}'.format(timeRotated-timePressed))
                     display.displayBoard(game.board.grid, game.nextPiece)
+                    print('Rotate Latency: {}'.format(timeRotated-timePressed))
                     while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
                         if supervisor.ticks_ms() - lastTime >= 250:
                             game.currPiece.rotate()

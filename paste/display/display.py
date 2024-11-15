@@ -329,11 +329,9 @@ class Display():
     #Home screen state
     def state1(self):
         self.__init__
-        print(f"Free memory: {gc.mem_free()} bytes")
         #Clear entire board
         self.old = [['0' for _ in range(10)] for _ in range(20)]
         self.prevPieceSplash = None
-        print(f"Free memory: {gc.mem_free()} bytes")
         while len(self.splash) > 0:
                 self.splash.pop()
         self.clearMem()
@@ -373,6 +371,7 @@ class Display():
 
         self.xindex = 0
         self.yindex = 0
+        print(f"Free memory: {gc.mem_free()} bytes")
 
     def state2(self):
         print(f"Free memory: {gc.mem_free()} bytes")
