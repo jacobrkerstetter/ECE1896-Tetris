@@ -221,8 +221,10 @@ class Display():
 
     #Function to pop an index array
     def popOne(self, pops):
-        for part in pops:
-            self.splash.remove(part)
+        if(pops != 0):
+            for part in pops:
+                if part in self.splash:
+                    self.splash.remove(part)
 
     #Function that recives score and updates the current score
     def scoreUpdate(self, score):
@@ -297,23 +299,31 @@ class Display():
             for j in range(20):
                 #If there is a difference
                 if self.old[j][i] != mat[j][i]:
+                    self.popOne(self.prev[j][i])
                     if mat[j][i] == "r":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.red)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "g":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.green)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "d":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.dark)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "l":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.light)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "y":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.yellow)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "p":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.purple)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "o":
                         self.prev[j][i] = self.tetrisBlock(i * 16 + 100, j * 16, self.orange)
+                        self.old[j][i] = mat[j][i]
                     if mat[j][i] == "0":
-                        self.popOne(self.prev[j][i])
-                    self.old[j][i] = mat[j][i]
+                        self.old[j][i] = mat[j][i]
+                    
         gc.collect()
 
     #Home screen state
