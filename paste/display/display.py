@@ -435,7 +435,7 @@ class Display():
         
         #Display list of top 10 scores
         for i in range (10):
-            text_group = displayio.Group(scale=2, x=160, y=100 + i * 15)
+            text_group = displayio.Group(scale=2, x=145, y=103 + i * 20)
             text = "#" + str(i+1) + " " + scores[i]
             text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF)
             text_group.append(text_area)  # Subgroup for text scaling
