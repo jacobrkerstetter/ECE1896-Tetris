@@ -17,7 +17,7 @@ from controller.memory import *
 
 # instatiate inputs
 # create a keys object for all controller button pins
-buttons = keypad.Keys((board.D2, board.D3, board.D4, board.D5, board.D6, board.D7), value_when_pressed = True, pull = True, interval = 0.05, max_events = 1)
+buttons = keypad.Keys((board.D21, board.D20, board.D19, board.D18, board.D17, board.D16), value_when_pressed = True, pull = True, interval = 0.05, max_events = 1)
 currentEvent = keypad.Event()
 
 # create events for each button to compare with
