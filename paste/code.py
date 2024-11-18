@@ -76,11 +76,11 @@ while True:
             # get user input
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
-                timePressed = time.perf_counter()
+                timePressed = time.monotonic()
                 if currentEvent == upButton: # up button is pressed
                     game.currPiece.rotate()
-                    timeRotated = time.perf_counter()
                     display.displayBoard(game.board.grid, game.nextPiece)
+                    timeRotated = time.monotonic()
                     print('Rotate Latency: {}'.format(timeRotated-timePressed))
                     while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
                         if supervisor.ticks_ms() - lastTime >= 250:
