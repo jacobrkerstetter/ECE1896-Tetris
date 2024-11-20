@@ -1,6 +1,7 @@
 import curses
 from game import RiggedGame
 from color import Color
+import time
 
 def main():
     screen = curses.initscr()
@@ -85,15 +86,40 @@ def main():
                 if newKey == ord('p'):
                     game.pause = False
         if key == curses.KEY_DOWN:
+            start_time = time.perf_counter()
             game.currPiece.move(1, 0)
+            end_time = time.perf_counter()
+            wScore.addstr(1, 0, 'down: {}'.format(end_time - start_time))
+            wScore.refresh()
+            time.sleep(5)
         if key == curses.KEY_LEFT:
+            start_time = time.perf_counter()
             game.currPiece.move(0, -1)
+            end_time = time.perf_counter()
+            wScore.addstr(1, 0, 'down: {}'.format(end_time - start_time))
+            wScore.refresh()
+            time.sleep(5)
         if key == curses.KEY_RIGHT:
+            start_time = time.perf_counter()
             game.currPiece.move(0, 1)
+            end_time = time.perf_counter()
+            wScore.addstr(1, 0, 'down: {}'.format(end_time - start_time))
+            wScore.refresh()
+            time.sleep(5)
         if key == curses.KEY_UP:
+            start_time = time.perf_counter()
             game.currPiece.rotate()
+            end_time = time.perf_counter()
+            wScore.addstr(1, 0, 'down: {}'.format(end_time - start_time))
+            wScore.refresh()
+            time.sleep(5)
         if key == ord('b'):
+            start_time = time.perf_counter()
             game.currPiece.hardDrop()
+            end_time = time.perf_counter()
+            wScore.addstr(1, 0, 'down: {}'.format(end_time - start_time))
+            wScore.refresh()
+            time.sleep(5)
 
         game.getNextBlock()
 
