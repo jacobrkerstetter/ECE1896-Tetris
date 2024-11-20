@@ -35,7 +35,10 @@ memory = Memory()
 while True:
     # Intro Screen State
     if (state == 1):
+        timePressed = time.monotonic()
         display.state1()
+        timeDone = time.monotonic()
+        print('Home Latency: {}'.format(timeDone-timePressed))
         while(state == 1):
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
@@ -62,7 +65,10 @@ while True:
     # Gameplay State
     if (state == 2):
         # reset screen
+        timePressed = time.monotonic()
         display.state2()
+        timeDone = time.monotonic()
+        print('GameStart Latency: {}'.format(timeDone-timePressed))
 
         # initialize game and controls
         game = Game(display)
@@ -76,12 +82,10 @@ while True:
             # get user input
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
-                timePressed = time.monotonic()
+                
                 if currentEvent == upButton: # up button is pressed
                     game.currPiece.rotate()
                     display.displayBoard(game.board.grid, game.nextPiece)
-                    timeRotated = time.monotonic()
-                    print('Rotate Latency: {}'.format(timeRotated-timePressed))
                     while buttons.events.get_into(currentEvent) == False: # loops until a button release is detected
                         if supervisor.ticks_ms() - lastTime >= 250:
                             game.currPiece.rotate()
@@ -155,7 +159,10 @@ while True:
             state = 3
 
     if (state == 3):
+        timePressed = time.monotonic()
         display.state3(memory.returnScores())
+        timeDone = time.monotonic()
+        print('Leader Latency: {}'.format(timeDone-timePressed))
         while(state == 3):
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
@@ -175,7 +182,10 @@ while True:
                 state = display.useLeaderboard(' ')
 
     if (state == 4):
+        timePressed = time.monotonic()
         display.state4()
+        timeDone = time.monotonic()
+        print('Help Latency: {}'.format(timeDone-timePressed))
         while(state == 4):
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
@@ -195,7 +205,10 @@ while True:
                 state = display.useHelp(' ')
 
     if (state == 5):
+        timePressed = time.monotonic()
         display.state5()
+        timeDone = time.monotonic()
+        print('Keyboard Latency: {}'.format(timeDone-timePressed))
         while(state == 5):
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
