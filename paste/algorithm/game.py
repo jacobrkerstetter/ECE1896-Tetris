@@ -70,6 +70,7 @@ class Game:
 
             self.score += self.updateScore(numCleared)
             self.display.scoreUpdate(self.score)
+            self.display.levelUpdate(self.level)
 
             # if nextPiece is overlapping a current piece, game over
             if not self.nextPiece.isValidSpace():
@@ -124,6 +125,7 @@ class RiggedGame(Game):
 
             self.score += self.updateScore(numCleared)
             self.display.scoreUpdate(self.score)
+            self.display.levelUpdate(self.level)
 
             # if nextPiece is overlapping a current piece, game over
             if not self.nextPiece.isValidSpace():

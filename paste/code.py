@@ -40,6 +40,7 @@ while True:
         timeDone = time.monotonic()
         print('Home Latency: {}'.format(timeDone-timePressed))
         while(state == 1):
+            timePressed = time.monotonic()
             if buttons.events.get_into(currentEvent): # if an event is available in the queue
                 lastTime = currentEvent.timestamp
                 input = ' '
@@ -61,6 +62,8 @@ while True:
                 state = display.useHome(input)
             else:
                 state = display.useHome(' ')
+        timeDone = time.monotonic()
+        print('Touch Latency: {}'.format(timeDone-timePressed))
 
     # Gameplay State
     if (state == 2):

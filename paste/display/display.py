@@ -67,6 +67,8 @@ class Display():
         #Hold for current game score splash
         self.currScore = None
         self.heldScore = None
+        self.currLevel = None
+        self.heldLevel = None
 
         #Hold for current highlight
         self.highlight = None
@@ -237,6 +239,18 @@ class Display():
         text_group.append(text_area)
         self.currScore = text_group
         self.splash.append(text_group)
+    
+    #Function that recives level and updates the current level
+    def levelUpdate(self, level):
+        self.heldLevel = level
+        #Remove previous score
+        self.splash.remove(self.currLevel)
+        #Create score counter
+        text_group = displayio.Group(scale=2, x=300, y=150)
+        text_area = label.Label(terminalio.FONT, text="Level: " + str(level), color=0xFFFFFF)
+        text_group.append(text_area)
+        self.currLevel = text_group
+        self.splash.append(text_group)
 
     #Function that dsplays the upcoming tetris piece
     def displayNext(self, nextPiece):
@@ -343,15 +357,15 @@ class Display():
 
         #Create Start button
         self.splash.append(RoundRect(10, 120, 300, 50, 5, fill=0xAA0088))
-        text_group = displayio.Group(scale=3, x=20, y=145)
-        text = "Touch to start!"
+        text_group = displayio.Group(scale=3, x=120, y=145)
+        text = "Play!"
         text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
         text_group.append(text_area)  # Subgroup for text scaling
         self.splash.append(text_group)
 
         #Create Help Button
         self.splash.append(RoundRect(10, 190, 300, 50, 5, fill=0xAA0088))
-        text_group = displayio.Group(scale=3, x=110, y=215)
+        text_group = displayio.Group(scale=3, x=120, y=215)
         text = "Help"
         text_area = label.Label(terminalio.FONT, text=text, color=0xFFFF00)
         text_group.append(text_area)  # Subgroup for text scaling
@@ -388,6 +402,11 @@ class Display():
         text_area = label.Label(terminalio.FONT, text="Score: " + str(0), color=0xFFFFFF)
         text_group.append(text_area)  # Subgroup for text scaling
         self.currScore = text_group
+        self.splash.append(text_group)
+        text_group = displayio.Group(scale=2, x=300, y=150)
+        text_area = label.Label(terminalio.FONT, text="Level: " + str(1), color=0xFFFFFF)
+        text_group.append(text_area)  # Subgroup for text scaling
+        self.currLevel = text_group
         self.splash.append(text_group)
 
         text_group = displayio.Group(scale=2, x=300, y=50)
