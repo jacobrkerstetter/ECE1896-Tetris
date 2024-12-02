@@ -1,10 +1,13 @@
 # class to describe the gameboard layout
 
+from controller.motor import Motor
+
 class Board:
     def __init__(self):
         self.numRows = 20
         self.numCols = 10
         self.grid = [['0' for j in range(self.numCols)] for i in range(self.numRows)]
+        self.motor = Motor()
 
     def printBoard(self):
         for row in range(self.numRows):
@@ -24,6 +27,7 @@ class Board:
         for i, row in enumerate(self.grid):
             if '0' not in row:
                 numCleared += 1
+                self.motor.vibrate() # EDIT FROM CASSANDRA: vibrate motor
                 self.grid = [['0' for j in range(self.numCols)]] + self.grid[:i] + self.grid[i + 1:]
 
         return numCleared
