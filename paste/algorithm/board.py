@@ -3,11 +3,11 @@
 from controller.motor import Motor
 
 class Board:
-    def __init__(self):
+    def __init__(self, motor):
         self.numRows = 20
         self.numCols = 10
         self.grid = [['0' for j in range(self.numCols)] for i in range(self.numRows)]
-        self.motor = Motor()
+        self.motor = motor
 
     def printBoard(self):
         for row in range(self.numRows):

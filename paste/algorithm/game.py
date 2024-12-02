@@ -8,7 +8,7 @@ from algorithm.block import *
 from display.display import *
 
 class Game:
-    def __init__(self, display):
+    def __init__(self, display, motor):
         self.display = display
 
         # initialize score to 0 and level to 1
@@ -23,7 +23,7 @@ class Game:
         self.fallSpeed = 0.8
 
         # instatiate game board
-        self.board = Board()
+        self.board = Board(motor)
 
         # seed random generator
         random.seed(int(time.time()))

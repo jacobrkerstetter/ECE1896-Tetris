@@ -13,6 +13,7 @@ from display.display import *
 from algorithm.game import *
 from algorithm.game import *
 from controller.memory import *
+from controller.motor import *
 #from controller.userInput import *
 
 # instatiate inputs
@@ -31,6 +32,7 @@ dropButton = keypad.Event(5, True)  # Button D7 pressed
 state = 1
 display = Display()
 memory = Memory()
+motor = Motor()
 
 while True:
     # Intro Screen State
@@ -74,7 +76,7 @@ while True:
         print('GameStart Latency: {}'.format(timeDone-timePressed))
 
         # initialize game and controls
-        game = Game(display)
+        game = Game(display, motor)
         # userControls = UserInput()
         while game.run:
             display.displayBoard(game.board.grid, game.nextPiece)
